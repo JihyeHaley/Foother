@@ -35,6 +35,30 @@ def signup(request):
     return render(request, 'accounts/form.html', context)
     
 
+def detail(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    context = {
+        'user' : user,
+    }
+    return render(request, 'accounts/detail.html', context)
+
+
+def signup_update(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            user = form.save()
+            return redirect ('accounts:detail', user.pk)
+    else:
+        form = CustomUserCreationForm(instance=user)
+    
+    context = {
+        'form' : form,
+    }
+
+    return render(request, 'accounts/signup_update.html', context)
+
 def login(request):
     if request.user.is_authenticated :
         return redirect('accounts:index')
