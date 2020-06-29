@@ -16,4 +16,6 @@ class User(AbstractUser):
                         'quality': 70},
                     default='default.png'
     )
-    
+
+
+

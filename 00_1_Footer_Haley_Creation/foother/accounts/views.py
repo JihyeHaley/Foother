@@ -18,6 +18,7 @@ def signup(request):
         return redirect('accounts:index')
 
     if request.method == 'POST':
+        raise
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
