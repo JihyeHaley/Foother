@@ -2,6 +2,38 @@
     <section id="facts" class="facts">
         <h1>Chuck 1</h1>
 
+<label for="addressSearch">주소 검색 : <input id="addressSearch" type="text"></label>
+<input id="searchBtn" type="submit">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+var addressSearch = document.getElementById('addressSearch')
+var searchBtn = document.getElementById('searchBtn')
+
+searchBtn.addEventListener('click', function(event){
+  console.log("주소검색 버튼 눌림") 
+  console.log(addressSearch.value)
+    axios.get('https://dapi.kakao.com/v2/local/search/keyword.json',
+    { params: {
+        query: addressSearch.value,
+        category_group_code: 'FD6'
+      },
+    headers: {
+      'Authorization': 'KakaoAK 1bdcfbeb6bb8e3bf27b8caf11c8e53b4'
+    }
+    }).then(function(res){
+      console.log(res.data[0])
+      }).catch()
+    })
+
+</script>
+<hr>
+<form action="" method="POST">
+{% csrf_token %}
+{{form}}
+</form>
+
+<hr>
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
