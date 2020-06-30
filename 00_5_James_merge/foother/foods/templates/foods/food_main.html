@@ -12,6 +12,8 @@
             <a href="{% url 'foods:result' foodCategory.id %}"><button>{{ foodCategory.food_ctg }}</button></a>
         {% endfor %}
     </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -30,5 +32,5 @@
                 })
              });
         }); {% endcomment %}
-    </script>
+    
 {% endblock %}
