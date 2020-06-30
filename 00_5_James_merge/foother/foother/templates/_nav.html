@@ -6,7 +6,7 @@
       <a href="{% url 'foother-index' %}"><img src="{% static 'img/nav/logo_marker_blue.png' %}" class="logo-img mb-3"></a>
       {% if request.user.is_authenticated %}
           <a> <img src="{{ request.user.user_profile_image.url }}" class="rounded-circle nav-user-icon mr-1"></a>
-          <a> {{ request.user }}님 반가워요!💓</a>
+          <a style="font-size:23px;"> {{ request.user }}님 Hi💓</a>
           {% else %}
             <a href="{% url 'accounts:signup'%}" ><img src="{% static 'img/nav/signup.png' %}" class="nav-user-icon mr-2 ml-2"></a>
             <a href="{% url 'accounts:login'%}" ><img src="{% static 'img/nav/login.png' %}" class="nav-user-icon mr-2 ml-2"></a>
@@ -18,7 +18,6 @@
 
     <nav class="nav-menu d-flex flex-column justify-content-flex-start">
       <ul>
-        <li><a href="{% url 'foother-index' %}"><img src="{% static 'img/nav/home.png' %}" class="nav-icon mr-2 ml-2">Home</a></li>
         {% comment %} <i class="bx bx-book-content mr-2 ml-2"></i> {% endcomment %}
         <li><a href="{% url 'foods:main' %}"><img src="{% static 'img/nav/foodrec.png' %}" class="nav-icon mr-2 ml-2">음식추천</a></li>
         <li><a href="{% url 'maps:review' %}"><img src="{% static 'img/카메라.png' %}" class="nav-icon mr-2 ml-2">업로드</a></li>
@@ -28,6 +27,7 @@
         {% comment %} <li><a><i class="bx bx-server mr-2 ml-2"></i>전체보기</a></li> {% endcomment %}
         {% comment %} <li><a ><i class="bx bx-envelope mr-2 ml-2"></i>FAQ</a></li> {% endcomment %}
       {% if request.user.is_authenticated %}
+        <li><a href="{% url 'accounts:detail' request.user.username %}"><img src="{% static 'img/nav/home.png' %}" class="nav-icon mr-2 ml-2">정보수정</a></li>
         <li><a href="{% url 'accounts:logout' %}"><img src="{% static 'img/nav/logout.png' %}" class="nav-icon mr-2 ml-2">로그아웃</a></li>
       {% endif %}
       </ul>

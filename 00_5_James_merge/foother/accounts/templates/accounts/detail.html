@@ -21,6 +21,6 @@
     </table>
     <a class="d-block" href="{{ user.user_profile_image.url }}">프로필 사진:</a>
     <img class="d-block" src="{{ user.user_profile_image.url }}">
-    <a class="btn btn-warning" href="{% url 'accounts:detail' user.pk %}">개인정보 수정하기</a>
-    <a class="btn btn-primary" href="{% url 'accounts:index' %}">뒤로가기</a>
+    <a class="btn btn-warning" href="{% url 'accounts:update' user.username %}">개인정보 수정하기</a>
+    <a class="btn btn-primary" href="{% url 'foother-index' %}">뒤로가기</a>
 {% endblock  %}

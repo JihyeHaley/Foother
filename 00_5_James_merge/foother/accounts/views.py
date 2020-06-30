@@ -29,24 +29,6 @@ def signup(request):
 
     return render(request, 'accounts/form.html', context)
 
-@login_required
-def signup_update(request, username):
-    user = get_object_or_404(User, username=username)
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            user = form.save()
-            return redirect ('accounts:detail', user.username)
-    else:
-        form = CustomUserCreationForm(instance=user)
-    
-    context = {
-        'form' : form,
-    }
-
-    return render(request, 'accounts/signup_update.html', context)
-
-
 
 def login(request):
     if request.user.is_authenticated :
@@ -68,6 +50,36 @@ def login(request):
     }
 
     return render(request, 'accounts/form.html', context)
+
+
+@login_required
+def detail(request, username):
+    user = User.objects.get(username=username)
+
+    context = {
+        'user' : user,
+    }
+    return render(request, 'accounts/detail.html', context)
+
+
+@login_required
+def update(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            user = form.save()
+            return redirect ('accounts:detail', user.username)
+    else:
+        form = CustomUserCreationForm(instance=user)
+    
+    context = {
+        'form' : form,
+    }
+
+    return render(request, 'accounts/update.html', context)
+
+
 
 
 def logout(request):
