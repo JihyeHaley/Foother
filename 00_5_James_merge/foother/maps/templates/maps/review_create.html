@@ -19,15 +19,25 @@
 <hr>
 
 <script>
+
+// 검색을 위한 돔 객체 생성
 var addressSearch = document.getElementById('addressSearch')
 var searchBtn = document.getElementById('searchBtn')
-var restaurant_address_dom = document.getElementById('restaurant_address')
-var restaurant_address_dom2 = document.getElementById('restaurant_address2')
-var lat_dom = document.getElementById('lat')
-var lng_dom = document.getElementById('lng')
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+              mapOption = {
+                  
+                  center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                  //center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                  level: 4 // 지도의 확대 레벨
+              };
+
+          // 지도를 생성합니다.
+          var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+
+// 주소검색 버튼 클릭
 searchBtn.addEventListener('click', function(event){
-  console.log("주소검색 버튼 눌림")
-  console.log(addressSearch.value)
     axios.get('https://dapi.kakao.com/v2/local/search/keyword.json?y=37.514322572335935&x=127.06283102249932&radius=20000',
     { params: {
         query: addressSearch.value,
@@ -38,13 +48,14 @@ searchBtn.addEventListener('click', function(event){
       'Authorization': 'KakaoAK 1bdcfbeb6bb8e3bf27b8caf11c8e53b4'
     }
     }).then(function(res){
-      console.log(res.data)
-      console.log(res.data.documents)
-      console.log(res.data.documents[0].x)
+
+      // 요청이 성공했을 때 실행하는 함수
+      // res에 가게이름, 좌표, 주소 포함 Json 데이터로 받아옴.
+
+      //중심좌표를 위한 위도, 경도 설정
       var lat = res.data.documents[0].x
       var lng = res.data.documents[0].y
-
-      
+        console.log(res.data)
           // 지도 및 마커 영역
           // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
           var infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -102,27 +113,46 @@ searchBtn.addEventListener('click', function(event){
                     '<li><h6> 전화번호: ' + place.phone + '</h6></li>'+
                     '</ol></div>');
                     infowindow.open(map, marker);
-                    lat_dom.value = place.x
-                    lng_dom.value = place.y
-                    restaurant_address_dom.value = place.road_address_name
-                    restaurant_address_dom2.value = place.road_address_name
 
-                     //위도
+                     // 리뷰로 올릴 위도 설정
                       var lat = document.querySelector('#id_lat')
-                      lat.value = LatLng.getLat();
+                      lat.value = place.y;
 
-
-                      //경도
+                      // 리뷰로 올릴 경도 설정
                       var lng = document.querySelector('#id_lng')
-                      lng.value = LatLng.getLng();
+                      lng.value = place.x;
+
+                      //리뷰로 올릴 음식점 이름 설정
+                      var restaurant_name = document.querySelector('#id_restaurant_name')
+                      restaurant_name.value = place.place_name
+
+                      //리뷰로 올릴 음식점 주소 설정
+                      var restaurant_address = document.querySelector('#id_restaurant_address')
+                      restaurant_address.value = place.road_address_name
                 });
             }
                 }).catch(
                   alert("검색 결과가 없습니다.🥵")
                 )
 })
+{% comment %} 
+  //리뷰로 올릴 음식 이름 설정
+  var restaurant_name = document.querySelector('#id_restaurant_name')
+  restaurant_name.addEventListener('change', function(event){}
+  
+  
+  //리뷰로 올릴 음식점 별점 설정
+  var food_star = document.querySelector('#id_food_star')
+  food_star.addEventListener('change', function(event){}
 
-       
+  //리뷰로 올릴 음식점 리뷰 설정
+  var food_review = document.querySelector('#id_food_review')
+  food_review.addEventListener('change', function(event){}
+
+  //리뷰로 올릴 음식점 사진 설정
+  var food_image = document.querySelector('#id_food_image')
+  food_image.addEventListener('change', function(event){} {% endcomment %}
+
 
 </script>
 

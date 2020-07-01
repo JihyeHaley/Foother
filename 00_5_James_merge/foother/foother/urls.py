@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.foother_index, name='foother-index'),
     path('accounts/', include('accounts.urls')),
-    path('maps/', include('maps.urls')),
+    path('review/', include('maps.urls')),
     path('foods/', include('foods.urls')),
     
 

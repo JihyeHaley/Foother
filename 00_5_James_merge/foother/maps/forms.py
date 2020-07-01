@@ -13,34 +13,36 @@ class ReviewForm(forms.ModelForm):
     restaurant_address = forms.CharField(
         widget=forms.HiddenInput()
     )
-
-    # TextInput
     restaurant_name = forms.CharField(
-        label = "식당 이름: ",
+        label = "﹅먹은 장소: ",
         widget=forms.TextInput(
             attrs = {
                 'class' : 'my-restaurant-name form-control',
-                'placeholder' : '식당 이름을 입력해주세요',
+                'placeholder' : '먹은 장소를 입력해주세요',
+                'readonly' : '',
             }
         )
     )
+
+
+    # TextInput
     food_name = forms.CharField(
-        label = "음식 이름: ",
-        widget=forms.TextInput(
+        label = "﹅먹은 것: ",
+        widget = forms.TextInput(
             attrs = {
                 'class' : 'my-food-name form-control',
-                'placeholder' : '음식 이름을 입력해주세요',
+                'placeholder' : '먹은 것을 입력해주세요',
             }
         )
     )
 
     # Textarea
     food_review = forms.CharField(
-        label = '내용: ',
+        label = '﹅후기: ',
         widget = forms.Textarea(
             attrs = {
                 'class' : 'my-food-review form-control',
-                'placeholder' : '식당, 음식에 대한 리뷰를 입력해주세요',
+                'placeholder' : '후기를 입력해주세요',
                 'rows' : 5,
                 'cols' : 20,
             }
@@ -49,7 +51,7 @@ class ReviewForm(forms.ModelForm):
 
 
     food_star = forms.FloatField(
-        label = '별점: ',
+        label = '﹅별점: ',
         widget = forms.NumberInput(
             attrs = {
                 'class' : 'my-food-review form-control',
@@ -60,7 +62,7 @@ class ReviewForm(forms.ModelForm):
 
         
     visit_date = forms.DateField(
-        label = '방문 날짜: ',
+        label = '﹅방문 날짜: ',
         widget = SelectDateWidget(
             empty_label = ('년', '월', '일',)
         ),

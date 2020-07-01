@@ -31,7 +31,7 @@ def signup(request):
 
 
 def login(request):
-    if request.user.is_authenticated :
+    if request.user.is_authenticated:
         return redirect('foother-index')
 
     if request.method == 'POST':
