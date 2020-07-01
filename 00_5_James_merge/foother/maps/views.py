@@ -13,7 +13,7 @@ def index(request):
 
 
 @login_required
-def review(request):
+def create(request):
     # user = request.user
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
@@ -21,7 +21,7 @@ def review(request):
             review = form.save(commit=False)
             review.user = request.user
             review.save()
-            return redirect('maps:profile', review.username)
+            return redirect('maps:profile', review.user.username)
 
     else:
         form = ReviewForm()

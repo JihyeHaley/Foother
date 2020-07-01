@@ -1,19 +1,13 @@
 {% extends 'base.html' %}
 
 {% block youngi %}
-
     <h1> 음식을 추천합니다. </h1>
-    <div class="menu">
-        hihihihihihihi
-    </div>
     <div>
         {% for foodCategory in foodsCategories %}
             {% comment %} <button data-id="{{emotion.id}}" class="attr">{{emotion.emotion_name}}</button> {% endcomment %}
-            <a href="{% url 'foods:result' foodCategory.id %}"><button>{{ foodCategory.food_ctg }}</button></a>
+            <a href="{% url 'foods:result' foodCategory.food_ctg %}"><button class="btn btn-success">{{ foodCategory.food_ctg }}</button></a>
         {% endfor %}
     </div>
-    </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -32,5 +26,5 @@
                 })
              });
         }); {% endcomment %}
-    
+    </script>
 {% endblock %}

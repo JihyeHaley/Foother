@@ -7,17 +7,17 @@
 
 <label for="addressSearch">주소 검색 : <input id="addressSearch" type="text"></label>
 <input id="searchBtn" type="submit">
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <hr>
 <div id="map" style="width:500px;height:400px;"></div>
 
-<form action="{% url 'maps:profile' request.user.username%}" method="POST" enctype="multipart/data-form">
-{% csrf_token %}
-{% bootstrap_form form %}
-<button class="btn btn-success">전송</button>
+<form action="{% url 'maps:create' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <button class="btn btn-success">전송</button>
 </form>
 <hr>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
 // 검색을 위한 돔 객체 생성

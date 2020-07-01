@@ -5,8 +5,8 @@
 
   {% for review in review_user.review_set.all %}
     {{ review.user }}
-    {{ review.address }}
-    {{ review.food_namd }}
+    {{ review.restaurant_address }}
+    {{ review.food_name }}
     <hr>
   {% endfor %}
    <!-- ======= Skills Section ======= -->
