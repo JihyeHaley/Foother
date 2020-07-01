@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User
-from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from .forms import CustomUserCreationForm
 
 
 def index(request):
@@ -20,7 +19,6 @@ def signup(request):
             user = form.save()
             auth_login(request, user)
             return redirect('accounts:index')
-
     else:
         form = CustomUserCreationForm()
     

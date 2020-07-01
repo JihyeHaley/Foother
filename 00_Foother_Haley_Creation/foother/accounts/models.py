@@ -11,7 +11,7 @@ class User(AbstractUser):
     user_birth = models.DateField(auto_now_add=False)
     user_score = models.IntegerField()
     user_created = models.DateTimeField(auto_now_add=True)
-    user_profiel_image = ProcessedImageField(
+    user_profile_image = ProcessedImageField(
         upload_to = 'user_profiel_image',
         processors=[ResizeToFill(500, 500)],
         format='JPEG',

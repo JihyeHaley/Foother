@@ -1,15 +1,24 @@
-
 <!-- ======= Header ======= -->
-  <header id="header" class="d-flex flex-column justify-content-center">
-
-    <nav class="nav-menu">
+  <header id="header" class="mt-5" >
+    <div class="text-center">
+      {% if request.user.is_authenticated %}
+          <a> <img src="{{ request.user.user_profile_image.url }}" class="rounded-circle" style="width:50px"></a>
+          <a> {{ request.user }}님 </a>
+          <a href="{% url 'accounts:signup_update' user.pk %}">수정</a>
+          <a href="{% url 'accounts:logout' %}">로그아웃</a>
+          {% else %}
+            <a href="{% url 'accounts:signup'%}">회원가입</a>
+            <a href="{% url 'accounts:login'%}">로그인</a>
+      {% endif %}
+    </div>
+    <nav class="nav-menu d-flex flex-column justify-content-flex-start">
       <ul>
-        <li class="active"><a href="#hero"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a href="#about"><i class="bx bx-user"></i> <span>영기오빠(roots/_james_main_feelings.html)</span></a></li>
-        <li><a href="#resume"><i class="bx bx-file-blank"></i> <span>동규오빠(maps/_chuck_main_input.html)</span></a></li>
-        <li><a href="#portfolio"><i class="bx bx-book-content"></i> <span>동규오빠(maps/_chuck_main_profile.html)</span></a></li>
-        <li><a href="#services"><i class="bx bx-server"></i> <span>전체보기(foother/_see_all.html)</span></a></li>
-        <li><a href="#contact"><i class="bx bx-envelope"></i> <span>qna (notyet)</span></a></li>
+        <li><a href="#hero"><i class="bx bx-home mr-2"></i>Home</a></li>
+        <li><a href="#food_feelings"><i class="bx bx-user mr-2"></i>음식추천</a></li>
+        <li><a href="#input"><i class="bx bx-file-blank mr-2"></i>업로드</a></li>
+        <li><a href="#profile"><i class="bx bx-book-content mr-2"></i>내프로필</a></li>
+        <li><a href="#all"><i class="bx bx-server mr-2"></i>전체보기</a></li>
+        <li><a href="#faq"><i class="bx bx-envelope mr-2"></i>FAQ</a></li>
       </ul>
     </nav><!-- .nav-menu -->
 
