@@ -25,14 +25,13 @@
       <ul>
         {% comment %} <i class="bx bx-book-content mr-2 ml-2"></i> {% endcomment %}
         <li><a href="{% url 'foods:main' %}"><img src="{% static 'img/nav/foodrec.png' %}" class="nav-icon mr-2 ml-2">음식추천</a></li>
-      {% if request.user.is_authenticated %}
-        <li><a href="{% url 'maps:profile' request.user.username %}"><img src="{% static 'img/location.png' %}" class="nav-icon mr-2 ml-2">내프로필</a></li>
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'accounts:profile' request.user.username  %}"><img src="{% static 'img/nav/edit.png' %}" class="nav-icon mr-2 ml-2">정보수정</a></li>
         <li><a href="{% url 'maps:create' %}"><img src="{% static 'img/카메라.png' %}" class="nav-icon mr-2 ml-2">업로드</a></li>
-      {% endif %}
+        {% endif %}
         {% comment %} <li><a><i class="bx bx-server mr-2 ml-2"></i>전체보기</a></li> {% endcomment %}
         {% comment %} <li><a ><i class="bx bx-envelope mr-2 ml-2"></i>FAQ</a></li> {% endcomment %}
       {% if request.user.is_authenticated %}
-        <li><a href="{% url 'accounts:detail' request.user.username %}"><img src="{% static 'img/nav/edit.png' %}" class="nav-icon mr-2 ml-2">정보수정</a></li>
         <li><a href="{% url 'accounts:logout' %}"><img src="{% static 'img/nav/logout.png' %}" class="nav-icon mr-2 ml-2">로그아웃</a></li>
       {% endif %}
       </ul>

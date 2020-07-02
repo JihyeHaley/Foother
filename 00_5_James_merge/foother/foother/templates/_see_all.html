@@ -1,5 +1,7 @@
 {% load static %}
 
+
+
 <!-- ======= Portfolio Section ======= -->
 <section id="all" class="portfolio section-bg">
   <div class="container" data-aos="fade-up">
@@ -22,10 +24,9 @@
     </div>
 
     <div class="row-cols-3 portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
       {% for review in reviews %}
         <div class="col-md-4 portfolio-item filter-app">
-            <img src="{{ review.fooe_name }}" class="img-fluid" alt="">
+            <img src="{{ review.food_name.url }}" class="img-fluid" alt="">
             <div class="portfolio-info">
               <h4>{{ review.user.username }}</h4>
                 <h5>{{ review.restaurant_name }}<a>({{ review.food_name }})</a></h5>
@@ -111,5 +112,4 @@
 </div>
   </div>
 </section>
-
 

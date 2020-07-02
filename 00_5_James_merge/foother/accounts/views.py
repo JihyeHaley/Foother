@@ -7,6 +7,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
 
 def signup(request):
@@ -80,8 +81,19 @@ def update(request, username):
     return render(request, 'accounts/update.html', context)
 
 
-
-
 def logout(request):
     auth_logout(request)
     return redirect('foother-index')
+
+
+
+def profile(request, username):
+    if request.user.is_authenticated:
+        user = get_object_or_404(get_user_model(), username=username)
+        context = {
+            'user_profile' : user,
+        }
+    else:
+        return redirect('foother-index')
+        
+    return render(request, 'accounts/profile.html', context)
