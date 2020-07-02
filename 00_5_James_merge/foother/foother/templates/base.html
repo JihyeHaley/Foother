@@ -36,30 +36,21 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'style/style.css' %}" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: MyResume - v2.1.0
-  * Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  
 </head>
 
 <body>
   {% include '_nav.html' %}
-  
-<div class="container2">
-  <main id="main">
-    {% include '_main.html' %}
-    <div class="ml-5 mt-2">
+ <main id="main"> 
+  <div class="container2 mt-5">
+    {% comment %} {% include '_main.html' %} {% endcomment %}
     {% block content %}
     {% endblock  %}
-    </div> 
-    {% include '_see_all.html' %}
-    {% include '_members.html' %}
-</div>
+  </div>
+    {% comment %} {% include '_members.html' %} {% endcomment %}
+</main>
 
-    {% include '_foother.html' %}
+    {% comment %} {% include '_foother.html' %} {% endcomment %}
     
 
   <!-- javascript cdn-->
