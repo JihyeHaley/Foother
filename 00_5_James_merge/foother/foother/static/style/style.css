@@ -127,7 +127,7 @@ a:hover {
 --------------------------------------------------------------*/
 #header {
   margin-left: 1.5%;
-  width : 17%;
+  width : 14%;
   position: fixed;
   top: 0;
   left: 0;
@@ -1204,8 +1204,13 @@ section {
 }
 
 .container2{
-  margin-left : 18%;
+  margin-left : 10%;
   margin-right : 2%;
+}
+
+.container3{
+  margin-left : 15%;
+  margin-right : 15%;
 }
 
 .nav-icon{
@@ -1259,4 +1264,10 @@ section {
 
 .review-image{
   width: 100%;
+}
+
+.food-ctg-box{
+  width: 20%;
+  border-radius: 30px;
+  border : 5px solid;
 }

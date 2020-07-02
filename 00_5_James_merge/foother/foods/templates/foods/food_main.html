@@ -1,7 +1,37 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     <h1> 음식을 추천합니다. </h1>
+    <div class="container3">
+        <div class="row row-cols-3">
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            <div class="col3 food-ctg-box img-square mt-1 mb-1 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chicken.png' %}" class="img-square">
+            </div>
+            
+            
+        </div>
+    </div>
     <div>
         {% for foodCategory in foodsCategories %}
             {% comment %} <button data-id="{{emotion.id}}" class="attr">{{emotion.emotion_name}}</button> {% endcomment %}
