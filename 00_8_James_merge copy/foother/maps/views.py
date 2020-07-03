@@ -57,7 +57,6 @@ def like(request, review_pk):
 
 @login_required
 def comment_create(request, review_pk):
-    
     if request.method == 'POST':
         print("comment post 들어옴")
         review = Review.objects.get(pk=review_pk)

@@ -27,20 +27,19 @@
 
     <div class="row-cols-3 portfolio-container" data-aos="fade-up" data-aos-delay="200">
       {% for review in reviews %}
-        <div class="col-md-4 portfolio-item {{ review.food_kind }}" data-filter="filter-American">
-        <h6><img src="{{ review.user.user_profile_image.url }}" class="rounded-circle mr-2" style="width:35px;">{{ review.user.username }}</h6>
+        <div class="col-md-4 review-all portfolio-item {{ review.food_kind }}" data-filter="filter-American">
+        <h6><img src="{{ review.user.user_profile_image.url }}" class="rounded-circle mr-2" style="width:1.2rem;">{{ review.user.username }}</h6>
             <img src="{{ review.food_image.url }}" style="width:100%" class="img-fluid" alt="">
             {% if request.user in review.like_users.all %}
               <i role="button" class="fas fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: red;"></i>
-              <p>yes</p>
             {% else %}
               <i role="button" class="far fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: black;"></i>
             {% endif %}
             {% if review.like_users.count == 1 %}
-              <p class="user-select-none">{{ review.like_users.all|random }}님이 좋아합니다.</p>
+              <a class="user-select-none">{{ review.like_users.all|random }}님이 좋아합니다.</a>
             {% endif %}
             {% if review.like_users.count > 1 %}
-              <p class="user-select-none">{{ review.like_users.all|random }}님 외 {{ review.like_users.count }} 명이 좋아합니다.</p>
+              <a class="user-select-none">{{ review.like_users.all|random }}님 외 {{ review.like_users.count }} 명이 좋아합니다.</a>
             {% endif %}
             <div class="portfolio-info">
                 <a class="d-block">{{ review.restaurant_name }}</a>
@@ -49,7 +48,7 @@
                 <a class="d-block">{{ review.food_review }}</a>
                 <a class="d-block">⭐️{{ review.food_star }}</a>
                 <a class="d-block">{{ review.visit_date }}</a>
-                <a class="d-block" href="{% url 'maps:comment_create' review.pk %}">댓글쓰러가기</a>
+                <a class="d-block" href="{% url 'maps:comment-create' review.pk %}">댓글쓰러가기</a>
             </div>
         </div>
       {% endfor %}

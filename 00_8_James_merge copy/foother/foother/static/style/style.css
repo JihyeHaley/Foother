@@ -1280,3 +1280,12 @@ section {
   margin-left: 25%;
   margin-right: 25%;
 }
+
+
+.review-all > h6{
+  font-size: 0.9em;
+}
+
+.portfolio-info > a{
+  font-size: 0.9em;
+}
