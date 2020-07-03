@@ -10,7 +10,7 @@
     </div>
     <div class="text-center mb-3">
       {% if request.user.is_authenticated %}
-          <a> <img src="{{ request.user.user_profile_image.url }}" class="rounded-circle nav-user-icon mr-1"></a>
+          <a><img src="{{ request.user.user_profile_image.url }}" class="rounded-circle nav-user-icon mr-1"></a>
           <a style="font-size:23px; "> {{ request.user }}</a>
       {% else %}
             <a href="{% url 'accounts:signup'%}" ><img src="{% static 'img/nav/signup.png' %}" class="nav-user-icon mr-2 ml-2"></a>
@@ -28,7 +28,7 @@
         <li><a href="{% url 'foods:main' %}"><img src="{% static 'img/nav/foodrec.png' %}" class="nav-icon mr-2 ml-2">음식추천</a></li>
         {% if request.user.is_authenticated %}
         <li><a href="{% url 'accounts:profile' request.user.username  %}"><img src="{% static 'img/nav/edit.png' %}" class="nav-icon mr-2 ml-2">프로필</a></li>
-        <li><a href="{% url 'maps:create' %}"><img src="{% static 'img/카메라.png' %}" class="nav-icon mr-2 ml-2">업로드</a></li>
+        <li><a href="{% url 'maps:review-create' %}"><img src="{% static 'img/카메라.png' %}" class="nav-icon mr-2 ml-2">업로드</a></li>
         {% endif %}
         {% comment %} <li><a><i class="bx bx-server mr-2 ml-2"></i>전체보기</a></li> {% endcomment %}
         {% comment %} <li><a ><i class="bx bx-envelope mr-2 ml-2"></i>FAQ</a></li> {% endcomment %}

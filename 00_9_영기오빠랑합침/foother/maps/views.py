@@ -9,7 +9,7 @@ from django.http import JsonResponse
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def create(request):
+def review_create(request):
     # user = request.user
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
@@ -28,6 +28,48 @@ def create(request):
         # 'key' : key,
     }
     return render(request, 'maps/review_create.html', context)
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def review_detail(request, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    # if request.method == 'POST':
+    #     form = ReviewForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         review = form.save(commit=False)
+    #         review.user = request.user
+    #         review.save()
+    #         return redirect('maps:review-detail', review.pk)
+    # else:
+    #     form = ReviewForm(instance=review)
+       
+    context = {
+        'review' : review,
+    }
+    return render(request, 'maps/review_detail.html', context)
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def review_update(request, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            review = form.save
+            # (commit=False)
+            # review.user = request.user
+            # review.save()
+            return redirect('maps:review-detail', review.pk)
+    else:
+        form = ReviewForm(instance=review)
+       
+    context = {
+        'form' : form,
+    }
+    return render(request, 'maps/review_update.html', context)
+
 
 
 @login_required
@@ -57,7 +99,6 @@ def like(request, review_pk):
 
 @login_required
 def comment_create(request, review_pk):
-    
     if request.method == 'POST':
         print("comment post 들어옴")
         review = Review.objects.get(pk=review_pk)

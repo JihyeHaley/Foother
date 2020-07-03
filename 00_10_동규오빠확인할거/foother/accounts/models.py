@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from django.conf import settings
 
 
 class User(AbstractUser):
@@ -16,6 +17,7 @@ class User(AbstractUser):
                         'quality': 70},
                     default='default.png'
     )
+    follewers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='followings')
     # class Meta:
     #     ordering = ['-score']
     

@@ -4,6 +4,7 @@ import random
 
 def main(request):
     foodsCategories = FoodCategory.objects.all()
+
     # emotion = Emotion.objects.get(name=Food.food_name).emotion
     # foods = emotion.food_set.all()
 
@@ -27,6 +28,17 @@ def result(request, food_ctg):
     }
     return render(request,'foods/food_result.html', context)
     # 예상 food.emotion_
+
+
+def hangover(request):
+    foods = FoodChoice.objects.filter(status='해장')
+    randomfood = random.choice(foods) 
+    context = {
+        'foods' : foods,
+        'randomfood' : randomfood,
+    }
+    return render(request,'foods/food_result.html', context)
+
 
 def select(request, food_name):
     food = FoodChoice.objects.get(food_name=food_name)

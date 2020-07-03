@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
-
+{% load static %}
+ 
 {% block content %}
-<div class="jumbotron">
+<!--fontawsome-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
+
+<div class="container">
+<h1>prorile</h1>
   <div class="row align-items-center">
     <div class="col-4">
       <div class="row">
@@ -10,51 +15,62 @@
       </div>
     </div>  
     <div class="col-8">
-      <h1 class="display-4 text-center">{{ user_profile.username }}</h1>
-      <hr class="my-4">
-      <div class="d-flex justify-content-around">
-        <div class="d-flex flex-column align-items-center">
-          <div>{{ user_profile.review_set.count }}</div>
-          <div>게시물</div>
-        </div>
-        {% comment %} <div class="d-flex flex-column align-items-center">
-          <div>{{ user_profile.followers.count }}</div>
-          <div>팔로워</div>
-        </div>
-        <div class="d-flex flex-column align-items-center">
-          <span>{{ user_profile.followings.count }}</span>
-          <p>팔로잉</p>
-        </div> {% endcomment %}
-      </div>
-      {% comment %} {% if request.user != user_profile %}
-        {% if request.user in user_profile.followers.all %}
-          <a href="{% url 'accounts:follow' user_profile.pk %}" class="btn btn-secondary btn-lg btn-block mt-2">UNFOLLOW</a>
-        {% else %}
-          <a href="{% url 'accounts:follow' user_profile.pk %}" class="btn btn-primary btn-lg btn-block mt-2">FOLLOW</a>
+      <h1 class="text-left d-inline">{{ user_profile.username }}</h1>
+      <div class="d-inline">
+        {% if request.user != user_profile %}
+          {% if request.user in user_profile.followers.all %}
+            <a href="{% url 'accounts:follow' user_profile.username %}" class="btn btn-secondary btn-lg btn-block mt-2">UNFOLLOW</a>
+          {% else %}
+            <a href="{% url 'accounts:follow' user_profile.username %}" class="btn btn-primary btn-lg btn-block mt-2">FOLLOW</a>
+          {% endif %}
         {% endif %}
-      {% else %} {% endcomment %}
+      </div>
+      <div class="d-flex flex-row justify-content-start mt-3">
+          <div class="mr-5 d-flex justify-content-center">
+            <a class="d-block">게시물</a>
+            <a class="ml-2 font-bold">{{ user_profile.review_set.count }}</a>
+          </div>
+
+          <div class="ml-5 mr-5">
+            <a class="d-block">팔로우</a>
+            <a class="ml-2 font-bold">{{ user_profile.followers.count }}</a>
+          </div>
+
+          <div class="ml-5 mr-5">
+            <a class="d-block">팔로잉</a>
+            <a class="ml-2 font-bold">{{ user_profile.followings.count }}</a>
+          </div>
+
+        </div>
+      <hr class="my-4">
+      <a href="{% url 'accounts:update' user.username %}"><img src="{% static 'img/nav/edit.png' %}" class="nav-icon">개인정보수정</a>
+      {% if request.user != user_profile %}
+        {% if request.user in user_profile.followers.all %}
+          {% comment %} <a href="{% url 'accounts:follow' user_profile.pk %}" class="btn btn-secondary btn-lg btn-block mt-2">UNFOLLOW</a> {% endcomment %}
+        {% else %}
+          {% comment %} <a href="{% url 'accounts:follow' user_profile.pk %}" class="btn btn-primary btn-lg btn-block mt-2">FOLLOW</a> {% endcomment %}
+        {% endif %}
+      {% else %}
       <div class="row no-gutters justify-content-around">
-        <a href="{% url 'accounts:update' user.username %}" class="btn btn-primary btn-lg btn-block mt-2 col-4">회원수정</a>
         {% comment %} <form action="{% url 'accounts:delete' %}" method="POST" class="col-4">
           {% csrf_token %}
           <button class="btn btn-danger btn-lg btn-block mt-2">회원탈퇴</button>
         </form> {% endcomment %}
       </div>
-      {% comment %} {% endif %} {% endcomment %}
+      {% endif %}
     </div>  
   </div>
 </div>
 
 
 
-<h1>profile<h1>
   <div class="container">
     <div class="row-cols-3 portfolio-container">
       {% for review in user_profile.review_set.all %}
         <div class="col-md-4 portfolio-item filter-app">
           <img src="{{ review.food_image.url }}" class="review-image">
           <br>
-          <a href="{% url 'maps:review-detail' review.pk %}">리뷰수정하기</a>
+          <a href="{% url 'maps:review-detail' review.pk %}" class="d-flex justify-content-end" mt-2><i class="far fa-edit"></i></a>
             {% comment %} <div class="portfolio-info">
               <h4>{{ review.user.username }}</h4>
               <h5>{{ review.restaurant_name }}<a>({{ review.food_name }})</a></h5>

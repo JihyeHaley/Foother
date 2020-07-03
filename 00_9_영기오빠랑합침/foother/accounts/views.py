@@ -70,7 +70,8 @@ def update(request, username):
         form = CustomUserCreationForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             user = form.save()
-            return redirect ('accounts:detail', user.username)
+            auth_login(request, user)
+            return redirect ('accounts:profile', user.username)
     else:
         form = CustomUserCreationForm(instance=user)
     
@@ -97,3 +98,15 @@ def profile(request, username):
         return redirect('foother-index')
         
     return render(request, 'accounts/profile.html', context)
+
+
+@login_required
+def follow(request, username):
+    you = get_object_or_404(get_user_model(), username=username)
+    me = request.user
+    if me != you:
+        if you.followers.filter(username=me.username).exists():
+            you.followers.remove(me)
+        else:
+            you.followers.add(me)
+    return redirect('accounts:profile', you.username)

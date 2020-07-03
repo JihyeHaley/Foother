@@ -28,33 +28,35 @@
     <div class="row-cols-3 portfolio-container" data-aos="fade-up" data-aos-delay="200">
       {% for review in reviews %}
         <div class="col-md-4 review-all portfolio-item {{ review.food_kind }}" data-filter="filter-American">
-        <h6><img src="{{ review.user.user_profile_image.url }}" class="rounded-circle mr-2 all-profile" >{{ review.user.username }}</h6>
+        <a href="{% url 'accounts:profile' review.user.username %}"><h6><img src="{{ review.user.user_profile_image.url }}" class="rounded-circle mr-2 all-profile" >{{ review.user.username }}</h6></a>
+            {% comment %} <a class="d-block">{{ review.restaurant_address }}</a> {% endcomment %}
+            <span>{{ review.restaurant_name }}</span><span class="ml-2 font-bold">{{ review.food_name }}</span>
+            {% for _ in review.food_star %}
+              <span>⭐️</span>
+            {% endfor %}
             <img src="{{ review.food_image.url }}" style="width:100%" class="img-fluid" alt="">
             {% if request.user in review.like_users.all %}
               <i role="button" class="fas fa-heart fa-md like-button" data-id="{{ review.pk }}" style="color: red;"></i>
             {% else %}
               <i role="button" class="far fa-heart fa-md like-button" data-id="{{ review.pk }}" style="color: black;"></i>
             {% endif %}
+            <a href="{% url 'maps:comment-create' review.pk %}"><i class="far fa-comment"></i></a>
             {% if review.like_users.count == 1 %}
-              <a class="user-select-none">{{ review.like_users.all|random }}님이 좋아합니다.</a>
+              <span class="user-select-none d-block">{{ review.like_users.all|random }}님이 좋아합니다.</span>
             {% endif %}
             {% if review.like_users.count > 1 %}
-              <a class="user-select-none">{{ review.like_users.all|random }}님 외 {{ review.like_users.count }} 명이 좋아합니다.</a>
+              <span class="user-select-none d-block">{{ review.like_users.all|random }}님 외 {{ review.like_users.count }} 명이 좋아합니다.</span>
             {% endif %}
             <div class="portfolio-info">
-                <a>{{ review.restaurant_name }}</a><a class="ml-2 review-font-bold">({{ review.food_name }})</a>
-                <a class="d-block">{{ review.restaurant_address }}</a>
-                <a class="d-block">✍️{{ review.food_review }}</a>
-                <a class="d-block">⭐️{{ review.food_star }}</a>
-                <a class="d-block text-right">{{ review.visit_date }}</a>
-                <a class="d-block text-right" href="{% url 'maps:comment-create' review.pk %}">후기 남기기</a>
+                <span class="d-block">{{ review.food_review }}</span>
+                <span class="d-block text-right">{{ review.visit_date }}</span>
             </div>
         </div>
       {% endfor %}
     </div>
     
 
-    <div class="pagination">
+    {% comment %} <div class="pagination">
     <span class="step-links">
       {% if reviews.has_previous %}
         <a href="?page=1">&laquo; first</a>
@@ -70,7 +72,7 @@
         <a href="?page={{ review.paginator.num_pages }}">last &raquo;</a>
       {% endif %}
     </span>
-</div>
+</div> {% endcomment %}
   </div>
 </section>
 

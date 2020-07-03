@@ -1282,6 +1282,12 @@ section {
 }
 
 
+.review-all{
+  border: 0.5px #f7f8f9 solid;
+  border-radius : 3px;
+}
+
+
 .review-all> h6{
   font-size: 1.1em;
 }
@@ -1291,17 +1297,17 @@ section {
 }
 
 .review-all> a{
-  font-size: 1em;
+  font-size: 0.9em;
 }
 
 .portfolio-info > a{
   font-size: 0.9em;
 }
 
-.review-font-light{
+.font-light{
   font-weight:300;
 }
 
-.review-font-bold{
+.font-bold{
   font-weight:700;
 }

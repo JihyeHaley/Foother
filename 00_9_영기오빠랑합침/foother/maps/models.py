@@ -17,10 +17,10 @@ class Review(models.Model):
     food_name = models.CharField(max_length=30)
     
     # Textarea
-    food_review = models.CharField(max_length=100)
+    food_review = models.CharField(max_length=30)
     
     #손봐야할 거
-    food_star = models.FloatField()
+    food_star = models.IntegerField()
 
     food_image = ProcessedImageField(
                 upload_to='upload_photo',

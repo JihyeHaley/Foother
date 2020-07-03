@@ -580,7 +580,7 @@ section {
   cursor: pointer;
   display: inline-block;
   padding: 10px 15px;
-  font-size: 30px;
+  font-size: 1.3em;
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
@@ -1279,4 +1279,35 @@ section {
 .ml-margin{
   margin-left: 25%;
   margin-right: 25%;
+}
+
+
+.review-all{
+  border: 0.5px #f7f8f9 solid;
+  border-radius : 3px;
+}
+
+
+.review-all> h6{
+  font-size: 1.1em;
+}
+
+.all-profile{
+  width: 1.8em;
+}
+
+.review-all> a{
+  font-size: 0.9em;
+}
+
+.portfolio-info > a{
+  font-size: 0.9em;
+}
+
+.font-light{
+  font-weight:300;
+}
+
+.font-bold{
+  font-weight:700;
 }

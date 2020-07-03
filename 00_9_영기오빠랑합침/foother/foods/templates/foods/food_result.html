@@ -1,22 +1,31 @@
+  
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="row">
-    <div class="col">
-    {% for food in foods %}
-        <a href="{% url 'foods:select' food.food_name %}"><button class="btn btn-succerss">{{ food.food_name }}</button></a>
-    {% endfor %}
+<div class="container3">
+    <h1 class="mb-3"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">2단계: 세부사항 골라보기</h1>  
+        <div class="container d-flex justify-content-center" style="width:70%">
+            <div class="row">
+                {% for food in foods %}
+                    <div class="col-4 food-ctg-box mb-3">
+                        <a href="{% url 'foods:select' food.food_name %}"><button class="btn btn-succerss">{{ food.food_name }}</button></a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+</div>
+<div class="container3">
+    <div class="container d-flex justify-content-start" style="width:70%">
+        <div class="row">
+            <button class="btn btn-warning" onclick="randomMenu()"> 오늘 이 음식은 어때요? </button>
+                <a href="{% url 'foods:select' randomfood.food_name %}">
+                    <span id="menu"></span>
+                </a>
+        </div>
     </div>
 </div>
-<br>
-<div class="row">
-    <div class="col">
-        <button class="btn btn-warning" onclick="randomMenu()"> 오늘 이 음식은 어때요? </button>
-        <a href="{% url 'foods:select' randomfood.food_name %}">
-        <span id="menu"></span>
-        </a>
-    </div>
-</div>
+
 <script>
     var flag = true;
     function randomMenu(){
@@ -31,6 +40,7 @@
             var target = document.getElementById('menu') 
             result = ""
             target.innerHTML = result
+            location.reload(true);
         }
     }
 </script>

@@ -9,6 +9,7 @@
         <h1>로그인</h1>
     {% endif %} {% endcomment %}
    
+<div class="container3">
    <form action="" method="POST" enctype="multipart/form-data">
         {% if request.resolver_match.url_name == 'signup' %}
             <div class="user-sign-container">
@@ -29,5 +30,6 @@
                 </button>
             </div>
     </form>
+</div>
 
 {% endblock  %}

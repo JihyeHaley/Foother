@@ -1,3 +1,4 @@
+  
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -24,3 +25,4 @@ class FoodChoice(models.Model):
     food_name = models.CharField(max_length=100)
     food_ctgs = models.ForeignKey(FoodCategory, on_delete=models.CASCADE)
     # food_by_emotion
+    status = models.CharField(max_length=50,default="일반")

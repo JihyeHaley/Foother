@@ -1,22 +1,21 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
-{% load static %}
 
 {% block content %}
-  <div class="container3">
-  <h1><img src="{% static 'img/title/green.png' %}" class="title-icon mr-2 ml-2">리뷰작성</h1>
-    <label for="addressSearch">주소 검색 : <input id="addressSearch" type="text"></label>
-    <input id="searchBtn" type="submit">
-    <hr>
-    <div id="map" style="width:500px;height:400px;"></div>
+<h1>Chuck 1</h1>
 
-    <form action="{% url 'maps:review-create' %}" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      <button class="btn btn-success">전송</button>
-    </form>
-  </div>
-  
+<label for="addressSearch">주소 검색 : <input id="addressSearch" type="text"></label>
+<input id="searchBtn" type="submit">
+<hr>
+<div id="map" style="width:500px;height:400px;"></div>
+
+<form action="{% url 'maps:review-update' review.pk %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <button class="btn btn-success">전송</button>
+</form>
+<hr>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 // 검색을 위한 돔 객체 생성

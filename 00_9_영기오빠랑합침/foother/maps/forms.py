@@ -43,19 +43,8 @@ class ReviewForm(forms.ModelForm):
             attrs = {
                 'class' : 'my-food-review form-control',
                 'placeholder' : '후기를 입력해주세요',
-                'rows' : 5,
-                'cols' : 20,
-            }
-        )
-    )
-
-
-    food_star = forms.FloatField(
-        label = '﹅별점: ',
-        widget = forms.NumberInput(
-            attrs = {
-                'class' : 'my-food-review form-control',
-                'placeholder' : '평점을 주세요.',
+                'rows' : 4,
+                'cols' : 15,
             }
         )
     )
@@ -80,6 +69,32 @@ class ReviewForm(forms.ModelForm):
         choices=CHOICES,
         label = "﹅카테고리:",
         # widget = forms.ChoiceField(
+        #     attrs = {
+        #         'class' : 'my-food-review',
+        #         'placeholder' : '카테고리를 선택해주세요',
+        #     }
+        # )
+    )
+    five = 5
+    four = 4
+    three = 3
+    two = 2
+    one = 1
+
+
+    CHOICES_2 = [
+        (five, '⭐️⭐️⭐️⭐️⭐️'),
+        (four, '⭐️⭐️⭐️⭐️'),
+        (three, '⭐️⭐️⭐️'),
+        (two, '⭐️⭐️'),
+        (one, '⭐️'),
+    ]
+
+
+    food_star = forms.ChoiceField(
+        choices=CHOICES_2,
+        label = "﹅별점:",
+        widget = forms.Select()
         #     attrs = {
         #         'class' : 'my-food-review',
         #         'placeholder' : '카테고리를 선택해주세요',
