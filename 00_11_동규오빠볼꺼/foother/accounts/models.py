@@ -18,6 +18,8 @@ class User(AbstractUser):
                     default='default.png'
     )
     follewers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='followings')
+
+    user_intro = models.CharField(max_length=40)
     # class Meta:
     #     ordering = ['-score']
     

@@ -5,17 +5,20 @@
 {% block content %}
 <!--fontawsome-->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
-<div class="container2 mt-5">
+<div class="container2 mt-5 mb-5 d-flex justify-content-center">
   <div class="row align-items-center">
     <div class="col-4">
       <div class="row">
-        <img class="col-12 rounded-circle" src="{{ user_profile.user_profile_image.url }}" alt="{{ user_profile.image }}">
+        <img class="col-10 rounded-circle " src="{{ user_profile.user_profile_image.url }}">
       </div>
     </div>
 
     <div class="col-6">
         <h1 class="text-left d-inline">{{ user_profile.username }}</h1>
-        <a href="{% url 'accounts:update' user.username %}" class="d-inline ml-5"><i class="fas fa-cog fa-lg"><h3 class="d-inline ml-3">프로필 편집</h3></i></a>
+        <a href="{% url 'accounts:update' user.username %}" class="d-inline ml-5">
+        {% if request.user == user_profile %}
+          <button class="d-inline ml-3 mr-4 profile-button"><i class="fas fa-cog fa-lg mr-2" style="color:#b8b6b6"></i>프로필 편집</button></a>
+        {% endif %}
         <div class="d-inline">
           {% if request.user != user_profile %}
             {% if request.user in user_profile.followers.all %}
@@ -33,18 +36,18 @@
             </div>
 
             <div class="ml-5 mr-5">
-              <a class="d-block">팔로우</a>
+              <a class="d-block">팔로워</a>
               <a class="ml-2 font-bold">{{ user_profile.followers.count }}</a>
             </div>
 
             <div class="ml-5 mr-5">
               <a class="d-block">팔로잉</a>
-              <a class="ml-2 font-bold">{{ user_profile.followings.count }}</a>
+              <a class="ml-2 font-bold">{{ user.followings.count }}</a>
             </div>
         </div>
 
         <div class="d-block mt-3">
-              <span>alfja;seirja;wlekfj;sldkfjaw;oeifj;slkdfj;lsakdjfas;lifkijwemo;iruxna;woifj;slfj;slkfjdslkdfja;sleijraw;orifjw;lfkjs;dlfkja;doifj;slkfjsdfs</span>  
+              <span>{{ user_profile.user_intro }}</span>  
         </div>
         
         <hr class="my-4">

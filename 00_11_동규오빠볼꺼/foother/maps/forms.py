@@ -44,7 +44,7 @@ class ReviewForm(forms.ModelForm):
                 'class' : 'my-food-review form-control',
                 'placeholder' : '후기를 입력해주세요',
                 'rows' : 4,
-                'cols' : 15,
+                'cols' : 5,
             }
         )
     )
@@ -58,11 +58,13 @@ class ReviewForm(forms.ModelForm):
     )
 
     CHOICES = [
-        ('korean', '한식'),
-        ('japanese', '일식'),
-        ('chinese', '중식'),
-        ('american', '양식'),
-        ('southeastern', '동남아식'),
+        ('rice', '밥'),
+        ('noodle', '면'),
+        ('special', '특식'),
+        ('soup', '국탕'),
+        ('simple', '간편식'),
+        ('pot', '찌개'),
+        ('bbq', '구이'),
     ]
 
     food_kind = forms.ChoiceField(

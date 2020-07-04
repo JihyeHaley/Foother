@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-    <!-- map 표시 start -->
 
 <!-- kakaomap api-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=50be581e2ca72229d9d9ae0b3a47c26c&libraries=services"></script>
@@ -44,27 +45,31 @@
         #pagination .on {font-weight: bold; cursor: default;color:#777;}
 
 </style>
-<div class="map_wrap">
-    <div id="map" style="width:100%;height:500px;position:relative;overflow:hidden;"></div>
-    <div id="menu_wrap" class="bg_white">
-        <div class="option">
-            <div>
-                <form onsubmit="searchPlaces(locate); return false;">
-                    키워드 : <input type="text" value='{{ food.food_name }}' id="keyword" size="15"> 
-                    <button type="submit">검색하기</button> 
-                </form>
+
+<div class="container3">
+    <h1 class="mb-3 font-bold"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">3단계:{{ food.food_name }} 순위별로 보기</h1>  
+        <div class="map_wrap">
+            <!-- map 표시 start -->
+            <div id="map" class="ml-4 food-select-map"></div>
+            <div id="menu_wrap" class="bg_white">
+                <div class="option">
+                    <div>
+                        <form onsubmit="searchPlaces(locate); return false;">
+                            키워드 : <input type="text" value='{{ food.food_name }}' id="keyword" size="15"> 
+                            <button type="submit">검색하기</button> 
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <ul id="placesList"></ul>
+                <div id="pagination"></div>
             </div>
         </div>
-        <hr>
-        <ul id="placesList"></ul>
-        <div id="pagination"></div>
-    </div>
+        <div id="selected_info">
+            <div id="info" class="d-flex flex-column align-item-center justify-concent-center"></div>
+        </div>
 </div>
-<div id="selected_info">
-    <div id="info">
 
-    </div>
-</div>
     <!-- map 표시 end -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -219,12 +224,12 @@
                         console.log(res.data.documents[0])
                         var result = ""
                         var target = document.getElementById('info')
-                        result += '<ui><li>'+title+'</li>'
-                        result += '<ui><li>'+res.data.documents[0].address_name+'</li>'
-                        result += '<li>'+res.data.documents[0].category_name+'</li>'
-                        result += '<li>'+res.data.documents[0].phone+'</li>'
-                        result += '<li>'+res.data.documents[0].road_address_name+'</li>' 
-                        result += '<li>'+res.data.documents[0].category_group_name+'</li></ul>'
+                        result += '<h3>'+'음식점 이름:'+title+'</h3>'
+                        result += '<p>'+'주소: '+res.data.documents[0].address_name+'</p>'
+                        result += '<p>'+'카테고리: '+res.data.documents[0].category_name+'</p>'
+                        result += '<p>'+'레스토랑 번호: '+res.data.documents[0].phone+'</p>'
+                        /*result += '<p>'+''+res.data.documents[0].road_address_name+'</p>'
+                        result += '<p>'+''+res.data.documents[0].category_group_name+'</p>'*/
                         result += '<a href="https://place.map.kakao.com/'+ res.data.documents[0].id+'"target="_blank">자세히 보기</a>'
                         target.innerHTML = result
                         });

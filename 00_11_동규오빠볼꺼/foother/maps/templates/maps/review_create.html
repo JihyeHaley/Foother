@@ -3,6 +3,8 @@
 {% load static %}
 
 {% block content %}
+
+
   <div class="container3">
   <h1><img src="{% static 'img/title/green.png' %}" class="title-icon mr-2 ml-2">리뷰작성</h1>
     <label for="addressSearch">주소 검색 : <input id="addressSearch" type="text"></label>
@@ -120,12 +122,24 @@ searchBtn.addEventListener('click', function(event){
                 // 마커에 클릭이벤트를 등록합니다
                 kakao.maps.event.addListener(marker, 'click', function() {
                     // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-                    infowindow.setContent('<div style="padding:5px;font-size:12px;"><ol>' +
-                    '<li><h6> 음식점 이름: ' + place.place_name + '</h6></li>'+
-                    '<li><h6> 카테고리: ' + place.category_name + '</h6></li>'+
-                    '<li><h6> 상세주소: ' + place.road_address_name + '</h6></li>'+
-                    '<li><h6> 전화번호: ' + place.phone + '</h6></li>'+
-                    '</ol></div>');
+                    infowindow.setContent(('<div style="wrap">' +
+                    '<div class="info">'+ 
+                    '<div class="title">'+ place.place_name +
+                    '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+                    '</div>' +
+                    '<div class="body">' +
+                    '<div class="img">' +
+                    '<img src="'+ place.image.url +'" width="73" height="70">'+
+                    '</div>' +
+                    '<div class="desc">' +
+                    '<div class="ellipsis">'+ place.road_address_name + '</div>'+
+                    '<div class="jibun ellipsis">' + place.category_name + '</div>'+
+                    '<div class="jibun ellipsis">' + place.phon + '</div>'+
+                    '<a href="https://place.map.kakao.com/'+ res.data.documents[0].id+'"target="_blank">음식점 자세히 보기</a>'
+                    '</div>' + 
+                    '</div>' + '</div>' + '</div>'
+                    );
+                    
                     infowindow.open(map, marker);
                     console.log(place)
                     // 리뷰로 올릴 위도 설정
@@ -144,10 +158,28 @@ searchBtn.addEventListener('click', function(event){
                       var restaurant_address = document.querySelector('#id_restaurant_address')
                       restaurant_address.value = place.road_address_name
                 });
+                // 마커 위에 커스텀오버레이를 표시합니다
+                // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+                var overlay = new kakao.maps.CustomOverlay({
+                    content: content,
+                    map: map,
+                    position: marker.getPosition()       
+                });
+
+                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    overlay.setMap(map);
+                });
+
+                // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+                function closeOverlay() {
+                    overlay.setMap(null);     
+                }
             }
                 })
     }
 })
+
 {% comment %} 
   //리뷰로 올릴 음식 이름 설정
   var restaurant_name = document.querySelector('#id_restaurant_name')

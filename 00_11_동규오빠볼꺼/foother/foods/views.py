@@ -2,19 +2,6 @@ from django.shortcuts import render
 from .models import FoodCategory, FoodChoice
 import random
 
-def main(request):
-    foodsCategories = FoodCategory.objects.all()
-
-    # emotion = Emotion.objects.get(name=Food.food_name).emotion
-    # foods = emotion.food_set.all()
-
-    context = {
-        'foodsCategories' : foodsCategories,
-        # 'foods' : foods
-    }
-
-    return render(request,'foods/food_main.html', context)
-
 
 def result(request, food_ctg):
     foodCategory = FoodCategory.objects.get(food_ctg=food_ctg)
@@ -25,7 +12,9 @@ def result(request, food_ctg):
     context = {
         'foods' : foods,
         'randomfood' : randomfood,
+        'foodCategory' : foodCategory,
     }
+    print(foodCategory.foodchoice_set)
     return render(request,'foods/food_result.html', context)
     # 예상 food.emotion_
 

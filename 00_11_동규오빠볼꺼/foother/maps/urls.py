@@ -6,6 +6,7 @@ app_name = 'maps'
 
 
 urlpatterns = [
+    path('all/', views.review_all, name='review-all'),
     path('create/', views.review_create, name='review-create'),
     path('<int:review_pk>/', views.review_detail, name='review-detail'),
     path('<int:review_pk>/update/', views.review_update, name='review-update'),

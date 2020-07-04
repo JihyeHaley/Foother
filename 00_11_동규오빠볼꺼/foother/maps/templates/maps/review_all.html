@@ -4,23 +4,22 @@
 
 <!--fontawsome-->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
-<!-- ======= Portfolio Section ======= -->
-<section id="all" class="portfolio section-bg">
-  <div class="container" data-aos="fade-up">
-    <div class="section-title">
-      <h2>뉴스피드</h2>
-      {% comment %} <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> {% endcomment %}
-    </div>
 
+<h1><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2 mt-2">전체 리뷰</h1>
+<!-- ======= Portfolio Section ======= -->
+<section class="portfolio">
+  <div class="container">
     <div class="row">
-      <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+      <div class="d-flex justify-content-start mt-5 mb-4" data-aos="fade-up" data-aos-delay="100">
         <ul id="portfolio-flters">
           <li data-filter="*" class="filter-active">전체</li>
-          <li data-filter=".korean">한식</li>
-          <li data-filter=".japense">일식</li>
-          <li data-filter=".chinese">중식</li>
-          <li data-filter=".american">양식</li>
-          <li data-filter=".southeastern">동남아식</li>
+          <li data-filter=".rice">밥</li>
+          <li data-filter=".noodle">면</li>
+          <li data-filter=".special">특식</li>
+          <li data-filter=".soup">국탕</li>
+          <li data-filter=".simple">간편식</li>
+          <li data-filter=".pot">찌개</li>
+          <li data-filter=".bbq">구이</li>
         </ul>
       </div>
     </div>
@@ -28,40 +27,41 @@
     <div class="row-cols-3 portfolio-container" data-aos="fade-up" data-aos-delay="200">
       {% for review in reviews %}
         <div class="col-md-4 review-all portfolio-item {{ review.food_kind }}" data-filter="filter-American">
-        <a href="{% url 'accounts:profile' review.user.username %}"><h6><img src="{{ review.user.user_profile_image.url }}" class="rounded-circle mr-2 all-profile" >{{ review.user.username }}</h6></a>
+          <a style="color:black" href="{% url 'accounts:profile' review.user.username %}"><h6><img src="{{ review.user.user_profile_image.url }}" class="rounded-circle mr-2 all-profile" >{{ review.user.username }}</h6></a>
             {% comment %} <a class="d-block">{{ review.restaurant_address }}</a> {% endcomment %}
-            <span>{{ review.restaurant_name }}</span><span class="ml-2 font-bold">{{ review.food_name }}</span>
+            <span class="font-bold mr-2">{{ review.food_name }}</span>
             {% if review.food_star == 5 %}
-              <i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i>
+              <i class="fas fa-star fa-lg mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i>
             {% elif review.food_star == 4 %}
-              <i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i>
+              <i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i>
             {% elif review.food_star == 3 %}
-              <i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i>
+              <i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i>
             {% elif review.food_star == 2 %}
-              <i class="fas fa-star" style="color:#f5da42"></i><i class="fas fa-star" style="color:#f5da42"></i>
+              <i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i>
             {% else %}
-              <i class="fas fa-star" style="color:#f5da42"></i>
+              <i class="fas fa-star mr-1" style="color:#f5da42"></i>
             {% endif %}
             
             {% comment %} {% for _ in review.food_star %}
               <span>⭐️</span>
             {% endfor %} {% endcomment %}
-            <img src="{{ review.food_image.url }}" style="width:100%" class="img-fluid" alt="">
+            <a><img src="{{ review.food_image.url }}" style="width:100%" class="img-fluid mt-2 mb-3"></a>
             {% if request.user in review.like_users.all %}
               <i role="button" class="fas fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: red;"></i>
             {% else %}
               <i role="button" class="far fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: black;"></i>
             {% endif %}
-            <a href="{% url 'maps:comment-create' review.pk %}" style="color:black"><i class="far fa-comment fa-lg"></i></a>
+            <a href="{% url 'maps:comment-create' review.pk %}" style="color:black"><i class="far fa-comment fa-lg ml-2"></i></a>
             {% if review.like_users.count == 1 %}
-              <span class="user-select-none d-block">{{ review.like_users.all|random }}님이 좋아합니다.</span>
+              <span class="user-select-none d-block"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님이 좋아합니다.</span>
             {% endif %}
             {% if review.like_users.count > 1 %}
-              <span class="user-select-none d-block">{{ review.like_users.all|random }}님 외 {{ review.like_users.count }} 명이 좋아합니다.</span>
+              <span class="user-select-none d-block"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님 외 {{ review.like_users.count }} 명이 좋아합니다.</span>
             {% endif %}
             <div class="portfolio-info">
-                <span class="d-block">{{ review.food_review }}</span>
-                <span class="d-block text-right">{{ review.visit_date }}</span>
+                <span class="d-block mt-1 mb-1">{{ review.food_review }}</span>
+                <span class="d-block" style="font-size:0.8rem">{{ review.restaurant_name }}</span>
+                <span class="d-block font-light" style="font-size:0.7rem">{{ review.visit_date }}</span>
             </div>
         </div>
       {% endfor %}

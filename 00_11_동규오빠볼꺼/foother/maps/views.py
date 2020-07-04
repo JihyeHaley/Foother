@@ -123,3 +123,18 @@ def comment_create(request, review_pk):
 
 def comment_complete(request):
     return render(request, 'maps/comment_complete.html')
+
+
+def review_all(request):
+    reviews = Review.objects.all()
+    # paginator = Paginator(reviews, 12)
+    
+    # page_number = request.GET.get('page')
+    # reviews = paginator.get_page(page_number)
+    # for star in len(reviews.food_star):
+    
+
+    context = {
+        'reviews' : reviews,
+    }
+    return render(request, 'maps/review_all.html', context)

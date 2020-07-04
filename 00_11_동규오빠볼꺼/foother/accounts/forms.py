@@ -15,6 +15,18 @@ class CustomUserCreationForm(UserCreationForm):
             }
         )
     )
+    user_info = forms.CharField(
+        label = '소개 한줄:',
+        widget = forms.Textarea(
+            attrs = {
+                'class' : 'my-user-info form-control',
+                'placeholder' : '자기소개를 살짝 적어주세요',
+                'rows' : 3,
+                'cols' : 5,
+            }
+        )
+    )
+
 
     
     # 원래라면  forms.ModelForm

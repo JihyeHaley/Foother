@@ -1,19 +1,18 @@
 from django.shortcuts import render
-from maps.models import Review
-from maps.forms import ReviewForm
+from foods.models import FoodCategory
 # from django.core.paginator import Paginator
 
 
 def foother_index(request):
-    reviews = Review.objects.all()
-    # paginator = Paginator(reviews, 12)
-    
-    # page_number = request.GET.get('page')
-    # reviews = paginator.get_page(page_number)
-    # for star in len(reviews.food_star):
-    
+    foodsCategories = FoodCategory.objects.all()
+
+    # emotion = Emotion.objects.get(name=Food.food_name).emotion
+    # foods = emotion.food_set.all()
 
     context = {
-        'reviews' : reviews,
+        'foodsCategories' : foodsCategories,
+        # 'foods' : foods
     }
-    return render(request, 'review_all.html', context)
+
+    return render(request,'foods/food_main.html', context)
+    
