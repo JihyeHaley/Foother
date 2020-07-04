@@ -5,6 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 
 
 def user_ranking():
@@ -49,15 +50,22 @@ def review_create(request):
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def review_detail(request, review_pk):
+def review_detail(request, username, review_pk):
     rankings = user_ranking()
+
     review = Review.objects.get(pk=review_pk)
+
+    comments = Comment.objects.all()
+    paginator = Paginator(comments,7)
+    page_number = request.GET.get('page')
+    comments = paginator.get_page(page_number)
     
-       
     context = {
         'review' : review,
+        'comments' : comments,
         'rankings' : rankings,
     }
+
     return render(request, 'maps/review_detail.html', context)
 
 
@@ -114,10 +122,8 @@ def like(request, review_pk):
 
 @login_required
 def comment_create(request, review_pk):
-    
-    
+    review = Review.objects.get(pk=review_pk)
     if request.method == 'POST':
-        review = Review.objects.get(pk=review_pk)
         print("comment post 들어옴")
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -134,10 +140,12 @@ def comment_create(request, review_pk):
         context = {
             'form' : form,
             'review_pk' : review_pk,
+            'review' : review,
         }
         print(form)
     
     return render(request, 'maps/comment_create.html',context)
+
 
 
 def comment_complete(request):

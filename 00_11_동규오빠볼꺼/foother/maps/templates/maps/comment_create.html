@@ -2,6 +2,7 @@
 {% load bootstrap4 %}
 
 {% block comment %}
+    <img src="{{ review.food_image.url}}">
     <form action="{% url 'maps:comment-create' review_pk %}" method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}

@@ -20,8 +20,8 @@ def user_ranking():
 
 
 def foother_index(request):
-    foodsCategories = FoodCategory.objects.all()
     rankings = user_ranking()
+    foodsCategories = FoodCategory.objects.all()
     # emotion = Emotion.objects.get(name=Food.food_name).emotion
     # foods = emotion.food_set.all()
 

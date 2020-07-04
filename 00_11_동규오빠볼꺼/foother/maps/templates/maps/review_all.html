@@ -5,24 +5,28 @@
 <!--fontawsome-->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
 
-<h1><img src="{% static 'img/nav/all.png' %}" class="page-icon mr-2 ml-2 mt-2">전체 리뷰</h1>
 <!-- ======= Portfolio Section ======= -->
 <section class="portfolio">
+  <div class="container3">
+    <h1><img src="{% static 'img/nav/all.png' %}" class="page-icon mr-2 ml-2 mt-2">전체 리뷰</h1>
+  </div>
   <div class="container">
-    <div class="row">
-      <div class="d-flex justify-content-start mt-5 mb-4" data-aos="fade-up" data-aos-delay="100">
-        <ul id="portfolio-flters">
-          <li data-filter="*" class="filter-active">전체</li>
-          <li data-filter=".rice">밥</li>
-          <li data-filter=".noodle">면</li>
-          <li data-filter=".special">특식</li>
-          <li data-filter=".soup">국탕</li>
-          <li data-filter=".simple">간편식</li>
-          <li data-filter=".pot">찌개</li>
-          <li data-filter=".bbq">구이</li>
-        </ul>
+      <div class="container3">
+        <div class="row">
+          <div class="d-flex align-items-column justify-content-center mt-5 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active"><img src="{% static 'img/nav/all.png' %}" class="review-all-icon "></li>
+              <li data-filter=".rice"><img src="{% static 'img/ctg/rice.png' %}" class="review-all-icon "></li>
+              <li data-filter=".noodle"><img src="{% static 'img/ctg/noodle.png' %}" class="review-all-icon "></li>
+              <li data-filter=".special"><img src="{% static 'img/ctg/special.png' %}" class="review-all-icon "></li>
+              <li data-filter=".soup"><img src="{% static 'img/ctg/soup.png' %}" class="review-all-icon "></li>
+              <li data-filter=".simple"><img src="{% static 'img/ctg/easy.png' %}" class="review-all-icon "></li>
+              <li data-filter=".pot"><img src="{% static 'img/ctg/soup.png' %}" class="review-all-icon "></li>
+              <li data-filter=".bbq"><img src="{% static 'img/ctg/meat.png' %}" class="review-all-icon "></li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
 
     <div class="row-cols-3 portfolio-container" data-aos="fade-up" data-aos-delay="200">
       {% for review in reviews %}
@@ -45,13 +49,13 @@
             {% comment %} {% for _ in review.food_star %}
               <span>⭐️</span>
             {% endfor %} {% endcomment %}
-            <a><img src="{{ review.food_image.url }}" style="width:100%" class="img-fluid mt-2 mb-3"></a>
+            <a href="{% url 'maps:review-detail' review.user review.pk %}"><img src="{{ review.food_image.url }}" style="width:100%" class="img-fluid mt-2 mb-3"></a>
             {% if request.user in review.like_users.all %}
               <i role="button" class="fas fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: red;"></i>
             {% else %}
               <i role="button" class="far fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: black;"></i>
             {% endif %}
-            <a href="#" style="color:black"><i onclick="window.open('http://127.0.0.1:8000/reviews/{{review.pk}}/comment/create', '댓글달기', 'width=500, height=500, top=200, left=400, toolbar=no, scrollbars=no, resizable=no');"class="far fa-comment fa-lg ml-2"></i></a>
+            <a href="#" style="color:black"><i onclick="window.open('http://127.0.0.1:8000/reviews/{{review.pk}}/comment/create', '댓글달기', 'width=700, height=500, top=200, left=400, toolbar=no, scrollbars=no, resizable=no');"class="far fa-comment fa-lg ml-2"></i></a>
             {% if review.like_users.count == 1 %}
               <span class="user-select-none d-block"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님이 좋아합니다.</span>
             {% endif %}

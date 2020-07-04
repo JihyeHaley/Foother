@@ -12,7 +12,6 @@
         <img class="col-10 rounded-circle " src="{{ user_profile.user_profile_image.url }}">
       </div>
     </div>
-
     <div class="col-6">
         <h1 class="text-left d-inline">{{ user_profile.username }}</h1><span class="d-inline ml-4" style="font-size:1.2rem"><i class="fas fa-crown fa-lg mr-2" style="color:#f5da42"></i>{{ user_profile.review_set.count }}점</span>
         <a href="{% url 'accounts:update' user.username %}" class="d-inline ml-5">
@@ -70,16 +69,8 @@
   <div class="container mt-5">
     <div class="row-cols-3 portfolio-container">
       {% for review in user_profile.review_set.all %}
-        <div class="col-md-4 portfolio-item filter-app">
-          <a href="{% url 'maps:review-detail' review.pk %}"><img src="{{ review.food_image.url }}" class="review-image"></a>
-          <br>
-          {% comment %} <a href="{% url 'maps:review-detail' review.pk %}" class="d-flex justify-content-end" mt-2><i class="far fa-edit"></i></a> {% endcomment %}
-            {% comment %} <div class="portfolio-info">
-              <h4>{{ review.user.username }}</h4>
-              <h5>{{ review.restaurant_name }}<a>({{ review.food_name }})</a></h5>
-              <p>{{ review.user }}</p>
-              <p>{{ review.restaurant_address}}</p>
-            </div> {% endcomment %}
+        <div class="col-md-4 portfolio-item filter-app mb-4">
+          <a href="{% url 'maps:review-detail' request.user review.pk %}"><img src="{{ review.food_image.url }}" class="review-image"></a>
         </div>
       {% endfor %}
     </div>
