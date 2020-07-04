@@ -63,7 +63,8 @@
 </style>
 
 <div class="container3">
-    <h1 class="mb-3 font-bold"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">3단계:{{ food.food_name }} 순위별로 보기</h1>  
+ <h1 class="mb-3 font-bold"><img src="{% static 'img/nav/foodrec.png' %}" class="page-icon mr-2 ml-2">음식추천</h1>     
+    <h2 class="mb-3 ml-3 font-bold"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">3단계:<span class="ml-3 mr-1" style="color:red">"{{ food.food_name }}"</span>순위별로</h2>     
         <div class="map_wrap">
             <div id="map" style="width:100%;height:500px;position:relative;overflow:hidden;"></div>
             <div id="menu_wrap" class="bg_white">
@@ -85,6 +86,11 @@
 
             </div>
         </div>
+</div>
+<div class="container3 mt-3">
+    <dvi class="container d-flex justify-content-end">
+        <a onclick="history.back()" href="#" style="color:black"><h5><i class="fas fa-backward fa-lg" style="color:black; opacity:0.7"></i>2단계,다시하기</h5></a>
+    </dvi>
 </div>
 
     <!-- map 표시 end -->
@@ -255,7 +261,7 @@
                             '        </div>' + 
                             '        <div class="body">' + 
                             '            <div class="img">' +
-                            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+                            '                <img src="https://www.pngrepo.com/png/184695/180/restaurant-plate.png" width="73" height="70">' +
                             '           </div>' + 
                             '            <div class="desc">' + 
                             '                <div class="ellipsis">' + res.data.documents[0].road_address_name + '</div>' + 

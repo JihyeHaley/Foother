@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+<!-- map 표시 start -->
 
 <!-- kakaomap api-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=50be581e2ca72229d9d9ae0b3a47c26c&libraries=services"></script>
@@ -44,13 +45,28 @@
         #pagination a {display:inline-block;margin-right:10px;}
         #pagination .on {font-weight: bold; cursor: default;color:#777;}
 
+        .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+        .wrap * {padding: 0;margin: 0;}
+        .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+        .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+        .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+        .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+        .info .close:hover {cursor: pointer;}
+        .info .body {position: relative;overflow: hidden;}
+        .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+        .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+        .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+        .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+        .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+        .info .link {color: #5085BB;}
+
 </style>
 
 <div class="container3">
-    <h1 class="mb-3 font-bold"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">3단계:{{ food.food_name }} 순위별로 보기</h1>  
+ <h1 class="mb-3 font-bold"><img src="{% static 'img/nav/foodrec.png' %}" class="page-icon mr-2 ml-2">음식추천</h1>     
+    <h2 class="mb-3 ml-3 font-bold"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">3단계:<span class="ml-3 mr-1" style="color:red">"{{ food.food_name }}"</span>순위별로</h2>     
         <div class="map_wrap">
-            <!-- map 표시 start -->
-            <div id="map" class="ml-4 food-select-map"></div>
+            <div id="map" style="width:100%;height:500px;position:relative;overflow:hidden;"></div>
             <div id="menu_wrap" class="bg_white">
                 <div class="option">
                     <div>
@@ -66,8 +82,15 @@
             </div>
         </div>
         <div id="selected_info">
-            <div id="info" class="d-flex flex-column align-item-center justify-concent-center"></div>
+            <div id="info">
+
+            </div>
         </div>
+</div>
+<div class="container3 mt-3">
+    <dvi class="container d-flex justify-content-end">
+        <a onclick="history.back()" href="#" style="color:black"><h5><i class="fas fa-backward fa-lg" style="color:black; opacity:0.7"></i>2단계,다시하기</h5></a>
+    </dvi>
 </div>
 
     <!-- map 표시 end -->
@@ -76,6 +99,7 @@
         
         var markers = [];
         // 마커 담을 장소
+        var overlay;
 
         var locate = {};
         // today: navigator.geolocation.getCurrentPosition(success, error);       
@@ -96,6 +120,8 @@
         var infowindow = new kakao.maps.InfoWindow({zIndex:1});
         
         var flag = true;
+        
+        var deleteflag = true;
 
         currentLocation();
         
@@ -195,6 +221,7 @@
                     itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
 
+                
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
                 bounds.extend(placePosition);
@@ -203,36 +230,61 @@
                 // 해당 장소에 인포윈도우에 장소명을 표시합니다
                 // mouseout 했을 때는 인포윈도우를 닫습니다
                 (function(marker, title) {
+
                     // --------------------------- 클릭 --------------------------------- 
                     kakao.maps.event.addListener(marker, 'click', function(mouseEvent) {
-		            // center값 받아서 줌인
-                    addressSearch = title
-                    console.log(addressSearch)
-                    var url = 'https://dapi.kakao.com/v2/local/search/keyword.json?y=37.514322572335935&x=127.06283102249932&radius=20000'
-                    var params = {
-                                    'query': addressSearch,
-                                }
-                    var headers = {'Authorization': 'KakaoAK 1eb82a611b357dbfc3eb3e227b6ec2d3'}
+                    if(deleteflag == false){
+                        closeOverlay();
+                    }
+                    else if(deleteflag == true){
+                        // center값 받아서 줌인
+                        addressSearch = title
+                        console.log(addressSearch)
+                        var url = 'https://dapi.kakao.com/v2/local/search/keyword.json?y=37.514322572335935&x=127.06283102249932&radius=20000'
+                        var params = {
+                                        'query': addressSearch,
+                                    }
+                        var headers = {'Authorization': 'KakaoAK 1eb82a611b357dbfc3eb3e227b6ec2d3'}
 
-                    axios({
-                        method: 'get',
-                        url: url,
-                        headers: headers,
-                        params: params,
-                    })
-                    .then(res => {
-                        console.log(res.data.documents[0])
-                        var result = ""
-                        var target = document.getElementById('info')
-                        result += '<h3>'+'음식점 이름:'+title+'</h3>'
-                        result += '<p>'+'주소: '+res.data.documents[0].address_name+'</p>'
-                        result += '<p>'+'카테고리: '+res.data.documents[0].category_name+'</p>'
-                        result += '<p>'+'레스토랑 번호: '+res.data.documents[0].phone+'</p>'
-                        /*result += '<p>'+''+res.data.documents[0].road_address_name+'</p>'
-                        result += '<p>'+''+res.data.documents[0].category_group_name+'</p>'*/
-                        result += '<a href="https://place.map.kakao.com/'+ res.data.documents[0].id+'"target="_blank">자세히 보기</a>'
-                        target.innerHTML = result
-                        });
+                        axios({
+                            method: 'get',
+                            url: url,
+                            headers: headers,
+                            params: params,
+                        })
+                        .then(res => {
+
+                            var content = '<div class="wrap">' + 
+                            '    <div class="info">' + 
+                            '        <div class="title">' + title + 
+                            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+                            '        </div>' + 
+                            '        <div class="body">' + 
+                            '            <div class="img">' +
+                            '                <img src="https://www.pngrepo.com/png/184695/180/restaurant-plate.png" width="73" height="70">' +
+                            '           </div>' + 
+                            '            <div class="desc">' + 
+                            '                <div class="ellipsis">' + res.data.documents[0].road_address_name + '</div>' + 
+                            '                <div class="jibun ellipsis">' + res.data.documents[0].address_name + 
+                            '                <div class="jibun ellipsis">' + res.data.documents[0].phone + 
+                            '                <div class="jibun ellipsis">' + res.data.documents[0].category_group_name + 
+                            '                <div><a href="https://place.map.kakao.com/'+ res.data.documents[0].id+'"target="_blank">홈페이지</a></div>' + 
+                            '            </div>' + 
+                            '        </div>' + 
+                            '    </div>' +    
+                            '</div>';
+                                overlay = new kakao.maps.CustomOverlay({
+                                content: content,
+                                map: map,
+                                position: marker.getPosition()       
+                            });
+                    
+                                overlay.setMap(map);
+                                deleteflag = false
+                        
+                            console.log(res.data.documents[0])
+                            });
+                        }
                     });
 
                     // ---------------------------  끝 ---------------------------------- 
@@ -264,8 +316,11 @@
             map.setBounds(bounds);
             console.log('displayPlaces')
         }
-
         // 검색결과 항목을 Element로 반환하는 함수입니다
+        function closeOverlay() {
+            overlay.setMap(null);
+            deleteflag = true     
+        }
         function getListItem(index, places) {
 
             var el = document.createElement('li'),

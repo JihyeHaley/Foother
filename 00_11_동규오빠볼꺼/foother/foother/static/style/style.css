@@ -192,9 +192,9 @@ a:hover {
   align-items: center;
   color: #45505b;
   padding: 10px 18px;
-  margin-bottom: 10%;
+  margin-bottom: 7%;
   transition: 0.3s;
-  font-size: 20px;
+  font-size: 1.2rem;
   border-radius: 40px;
   background: #f2f3f5;
   height: 50%;
@@ -1224,7 +1224,13 @@ section {
   height : 40px;
   margin-bottom : 5px;
 }
+.page-icon{
+  height : 47px;
+}
 .nav-user-icon{
+  height : 45px;
+}
+.nav-sign-icon{
   height : 50px;
 }
 
@@ -1339,4 +1345,11 @@ section {
 
 .review-all{
   padding: 18px;
+}
+
+.btn-follow{
+  background-color: #0678e3;
+  border: 1px #0678e3;
+  border-radius: 5rem;
+  color: white;
 }

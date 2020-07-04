@@ -5,7 +5,7 @@
 <!--fontawsome-->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
 
-<h1><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2 mt-2">전체 리뷰</h1>
+<h1><img src="{% static 'img/nav/all.png' %}" class="page-icon mr-2 ml-2 mt-2">전체 리뷰</h1>
 <!-- ======= Portfolio Section ======= -->
 <section class="portfolio">
   <div class="container">
@@ -31,7 +31,7 @@
             {% comment %} <a class="d-block">{{ review.restaurant_address }}</a> {% endcomment %}
             <span class="font-bold mr-2">{{ review.food_name }}</span>
             {% if review.food_star == 5 %}
-              <i class="fas fa-star fa-lg mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i>
+              <i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i>
             {% elif review.food_star == 4 %}
               <i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i><i class="fas fa-star mr-1" style="color:#f5da42"></i>
             {% elif review.food_star == 3 %}
@@ -51,7 +51,7 @@
             {% else %}
               <i role="button" class="far fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: black;"></i>
             {% endif %}
-            <a href="{% url 'maps:comment-create' review.pk %}" style="color:black"><i class="far fa-comment fa-lg ml-2"></i></a>
+            <a href="#" style="color:black"><i onclick="window.open('http://127.0.0.1:8000/reviews/{{review.pk}}/comment/create', '댓글달기', 'width=500, height=500, top=200, left=400, toolbar=no, scrollbars=no, resizable=no');"class="far fa-comment fa-lg ml-2"></i></a>
             {% if review.like_users.count == 1 %}
               <span class="user-select-none d-block"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님이 좋아합니다.</span>
             {% endif %}

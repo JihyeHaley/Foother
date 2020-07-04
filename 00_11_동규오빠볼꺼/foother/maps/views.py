@@ -69,7 +69,7 @@ def review_update(request, review_pk):
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES, instance=review)
         if form.is_valid():
-            review = form.save
+            review = form.save()
             # (commit=False)
             # review.user = request.user
             # review.save()
@@ -114,9 +114,11 @@ def like(request, review_pk):
 
 @login_required
 def comment_create(request, review_pk):
+    
+    
     if request.method == 'POST':
-        print("comment post 들어옴")
         review = Review.objects.get(pk=review_pk)
+        print("comment post 들어옴")
         form = CommentForm(request.POST)
         if form.is_valid():
             print("comment post_valid 들어옴")
@@ -124,7 +126,7 @@ def comment_create(request, review_pk):
             print(comment)
             comment.review = review
             comment.save()
-            return redirect('maps:comment-complete')
+            return render(request, 'maps/comment_complete.html')
     
     else:
         print("comment get 들어옴")
@@ -136,6 +138,7 @@ def comment_create(request, review_pk):
         print(form)
     
     return render(request, 'maps/comment_create.html',context)
+
 
 def comment_complete(request):
     return render(request, 'maps/comment_complete.html')

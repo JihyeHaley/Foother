@@ -3,8 +3,17 @@
 {% load static %}
 
 {% block content %}
-<div class="container3">
-    <h1 class="mb-3 font-bold"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">2단계:{{ foodCategory.food_ctg }} 골라보기</h1>  
+ <div class="container3">
+ <h1 class="mb-3 font-bold"><img src="{% static 'img/nav/foodrec.png' %}" class="page-icon mr-2 ml-2">음식추천</h1>     
+    <h2 class="mb-3 ml-3 font-bold"><img src="{% static 'img/title/purple.png' %}" class="title-icon mr-2 ml-2">2단계:
+        <span class="ml-3 mr-1" style="color:red">"
+        {% if request.resolver_match.url_name == 'hangover'  %}
+        해장
+        {% else %}
+        {{ foodCategory.food_ctg }}
+        {% endif %}
+        "</span> 종류 골라보기
+    </h2>     
         <div class="container d-flex justify-content-center mt-5 mb-5" >
             <div class="row col-3">
                 <div class="d-flex align-items-center justify-content-center">
@@ -45,7 +54,7 @@
 
 <div class="container3">
     <dvi class="container d-flex justify-content-end">
-        <a href="{% url 'foother-index' %}" style="color:black"><h5>1단계,다시하기</h5></a>
+        <a href="{% url 'foother-index' %}" style="color:black"><h5><i class="fas fa-backward fa-lg" style="color:black; opacity:0.7"></i>1단계,다시하기</h5></a>
     </dvi>
 </div>
 

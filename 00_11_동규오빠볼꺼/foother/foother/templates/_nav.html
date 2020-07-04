@@ -27,8 +27,8 @@
     <nav class="nav-menu d-flex flex-column justify-content-flex-start">
       <ul>
         {% comment %} <i class="bx bx-book-content mr-2 ml-2"></i> {% endcomment %}
-        <li><a href="{% url 'foother-index' %}"><img src="{% static 'img/nav/foodrec.png' %}" class="nav-icon mr-2 ">음식추천</a></li>
         <li><a href="{% url 'maps:review-all' %}"><img src="{% static 'img/nav/all.png' %}" class="nav-icon mr-2 ">전체보기</a></li>
+        <li><a href="{% url 'foother-index' %}"><img src="{% static 'img/nav/foodrec.png' %}" class="nav-icon mr-2 ">음식추천</a></li>
         {% if request.user.is_authenticated %}
         <li><a href="{% url 'maps:review-create' %}"><img src="{% static 'img/nav/upload.png' %}" class="nav-icon mr-2 ">업로드</a></li>
         <li><a href="{% url 'accounts:profile' request.user.username  %}"><img src="{% static 'img/nav/profile.png' %}" class="nav-icon mr-2">프로필</a></li>

@@ -4,12 +4,29 @@ from .models import Review, Comment
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
+
+
+def user_ranking():
+    User = get_user_model()
+    users = User.objects.all()
+    if len(users) >3:
+        while len(users) == 3:
+            del users[-1]
+    
+    ranking = {
+        'ranking' : users,
+    }
+    # return User.objects.all()
+    return ranking
+    # rankings = user_ranking()
 
 
 @login_required
 @require_http_methods(['GET', 'POST'])
 def review_create(request):
     # user = request.user
+    rankings = user_ranking()
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
@@ -25,6 +42,7 @@ def review_create(request):
     context = {
         'form' : form,
         # 'key' : key,
+        'rankings' : rankings,
     }
     return render(request, 'maps/review_create.html', context)
 
@@ -32,19 +50,13 @@ def review_create(request):
 @login_required
 @require_http_methods(['GET', 'POST'])
 def review_detail(request, review_pk):
+    rankings = user_ranking()
     review = Review.objects.get(pk=review_pk)
-    # if request.method == 'POST':
-    #     form = ReviewForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         review = form.save(commit=False)
-    #         review.user = request.user
-    #         review.save()
-    #         return redirect('maps:review-detail', review.pk)
-    # else:
-    #     form = ReviewForm(instance=review)
+    
        
     context = {
         'review' : review,
+        'rankings' : rankings,
     }
     return render(request, 'maps/review_detail.html', context)
 
@@ -52,11 +64,12 @@ def review_detail(request, review_pk):
 @login_required
 @require_http_methods(['GET', 'POST'])
 def review_update(request, review_pk):
+    rankings = user_ranking()
     review = Review.objects.get(pk=review_pk)
     if request.method == 'POST':
-        form = ReviewForm(request.POST, request.FILES)
+        form = ReviewForm(request.POST, request.FILES, instance=review)
         if form.is_valid():
-            review = form.save
+            review = form.save()
             # (commit=False)
             # review.user = request.user
             # review.save()
@@ -66,6 +79,7 @@ def review_update(request, review_pk):
        
     context = {
         'form' : form,
+        'rankings' : rankings,
     }
     return render(request, 'maps/review_update.html', context)
 
@@ -73,6 +87,7 @@ def review_update(request, review_pk):
 
 @login_required
 def like(request, review_pk):
+    
     print(request)
     review = get_object_or_404(Review, pk=review_pk)
     
@@ -91,6 +106,7 @@ def like(request, review_pk):
     context = {
         'msg' : 'like works',
         'liked' : liked,
+       
     }
 
     return JsonResponse(context)
@@ -98,9 +114,11 @@ def like(request, review_pk):
 
 @login_required
 def comment_create(request, review_pk):
+    
+    
     if request.method == 'POST':
-        print("comment post 들어옴")
         review = Review.objects.get(pk=review_pk)
+        print("comment post 들어옴")
         form = CommentForm(request.POST)
         if form.is_valid():
             print("comment post_valid 들어옴")
@@ -108,7 +126,7 @@ def comment_create(request, review_pk):
             print(comment)
             comment.review = review
             comment.save()
-            return redirect('maps:comment-complete')
+            return render(request, 'maps/comment_complete.html')
     
     else:
         print("comment get 들어옴")
@@ -120,6 +138,7 @@ def comment_create(request, review_pk):
         print(form)
     
     return render(request, 'maps/comment_create.html',context)
+
 
 def comment_complete(request):
     return render(request, 'maps/comment_complete.html')

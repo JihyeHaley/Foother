@@ -35,7 +35,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('foother-index')
+            return redirect('maps:review-all')
 
     else:
         form = CustomUserCreationForm()
@@ -59,7 +59,7 @@ def login(request):
             # user = form.save()
             user = form.get_user()
             auth_login(request, user)
-            return redirect('foother-index')
+            return redirect('maps:review-all')
 
     else:
         form = AuthenticationForm()
