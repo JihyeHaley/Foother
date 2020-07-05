@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block comment %}
+<div class="mt-5">
+    <h1><img src="{% static 'img/nav/comment.png' %}" class="page-icon mr-2 ml-2">댓글 남기기</h1>
+        <div class="mt-5" >
+            <div class="row">
+                <div class="col-5">
+                    <img src="{{ review.food_image.url }}">
+                </div>
+                <div class="col-7">
+                    
+                        <form action="{% url 'maps:comment-create' comment_user_username review_pk %}" method="POST">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            <button class="btn btn-success">댓글 남기기</button>
+                        </form>
+                    
+                </div>
+            </div>
+        </div>
+</div>
+
+{% endblock  %}
