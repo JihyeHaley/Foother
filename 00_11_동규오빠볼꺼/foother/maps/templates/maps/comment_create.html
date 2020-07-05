@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block comment %}
+    <img src="{{ review.food_image.url}}">
+    <form action="{% url 'maps:comment-create' review_pk %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button>댓글 남기기</button>
+    </form>
+
+{% endblock  %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block comment %}
+    <form action="{% url 'maps:comment-create' review_pk %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button id="comment_create_btn">댓글 남기기</button>
+    </form>
+
+    <script>
+        {% comment %} comment_create_btn = document.getElementById("comment_create_btn")
+        comment_create_btn.onclick = function(){
+            //opener.parent.location.reload();
+                
+                window.open("about:blank", "_self").close()
+                
+            } {% endcomment %}
+        
+    </script>
+
+{% endblock  %}

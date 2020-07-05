@@ -1,0 +1,115 @@
+{% load static %}
+
+<!-- ======= Portfolio Section ======= -->
+<section id="all" class="portfolio section-bg">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>Hot Menus!</h2>
+      <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+        <ul id="portfolio-flters">
+          <li data-filter="*" class="filter-active">All</li>
+          <li data-filter=".filter-Korean">Korean</li>
+          <li data-filter=".filter-Japense">Japense</li>
+          <li data-filter=".filter-Chinese">Chinese</li>
+          <li data-filter=".filter-American">American</li>
+          <li data-filter=".filter-SouthEastern">SouthEastern</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row-cols-3 portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+      {% for review in reviews %}
+        <div class="col-md-4 portfolio-item filter-app">
+            <img src="{{ review.fooe_name }}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>{{ review.user.username }}</h4>
+                <h5>{{ review.restaurant_name }}<a>({{ review.food_name }})</a></h5>
+                <p>{{ review.user }}</p>
+                <p>{{ review.restaurant_address}}</p>
+            </div>
+        </div>
+      {% endfor %}
+
+        <div class="col-md-4 portfolio-item filter-app">
+            <img src="{% static 'img/꼽이1.jpeg' %}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>{{ review.user.username }}</h4>
+                <h5>{{ review.restaurant_name }}<a>({{ review.food_name }})</a></h5>
+                <p>{{ review.user }}</p>
+                <p>{{ review.restaurant_address}}</p>
+            </div>
+        </div> 
+        <div class="col-md-4 portfolio-item filter-app">
+          <img src="{% static 'img/꼽이2.jpeg' %}" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h4>1122</h4>
+              <h5>22<a>({{ review.food_name }})</a></h5>
+              <p>{{ review.user }}</p>
+              <p>{{ review.restaurant_address}}</p>
+          </div>
+        </div> 
+        <div class="col-md-4 portfolio-item filter-app">
+          <img src="{% static 'img/꼽이3.png' %}" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h4>1122</h4>
+              <h5>22<a>({{ review.food_name }})</a></h5>
+              <p>{{ review.user }}</p>
+              <p>{{ review.restaurant_address}}</p>
+          </div>
+        </div> 
+        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+          <img src="{% static 'img/지유리랑.png' %}" class="img-fluid" alt="">
+          <div class="portfolio-info">
+          <h4>1122</h4>
+              <h5>22<a>({{ review.food_name }})</a></h5>
+              <p>{{ review.user }}</p>
+              <p>{{ review.restaurant_address}}</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+          <img src="{% static 'img/꼽이4.jpeg' %}" class="img-fluid" alt="">
+          <div class="portfolio-info">
+          <h4>1122</h4>
+              <h5>22<a>({{ review.food_name }})</a></h5>
+              <p>{{ review.user }}</p>
+              <p>{{ review.restaurant_address}}</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+          <img src="{% static 'img/꼽이5.jpeg' %}" class="img-fluid" alt="">
+          <div class="portfolio-info">
+          <h4>1122</h4>
+              <h5>22<a>({{ review.food_name }})</a></h5>
+              <p>{{ review.user }}</p>
+              <p>{{ review.restaurant_address}}</p>
+          </div>
+        </div>
+    </div>
+    
+
+    <div class="pagination">
+    <span class="step-links">
+      {% if reviews.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ reviews.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}.
+      </span>
+
+      {% if reviews.has_next %}
+        <a href="?page={{ reviews.next_page_number }}">next</a>
+        <a href="?page={{ review.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+</div>
+  </div>
+</section>
+
+

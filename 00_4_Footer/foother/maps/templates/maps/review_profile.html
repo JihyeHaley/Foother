@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+  {% for review in review_user.review_set.all %}
+    {{ review.user }}
+    {{ review.address }}
+    {{ review.food_namd }}
+    <hr>
+  {% endfor %}
+   <!-- ======= Skills Section ======= -->
+    <section  class="skills section-bg">
+    <h1>profile<h1>
+    {% for review in reviews %}
+    <div class="row row-cols-3">
+     <div class="card">
+        <div class="m-2">
+          <h5 class="card-header">
+            <img class="rounded-circle" src="{{ review.user.user_profile_image.url }}" width='30px' height='30px'>
+            <a>{{ review.user.username }}</a>
+          </h5>
+          <img src="{{ review.user.username }}" class="card-img-top">
+          
+            <div class="card-body">
+              <p class="card-title">{{ review.user.username }}</p>
+              <p class="card-text">{{ review.user.username }}</p>
+              <p>{{ post.image.url }}</p><!-- image의 url을 가져온다는 뜻!?!?!-->
+            </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <section>
+
+
+{% endblock  %}

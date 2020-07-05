@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block youngi %}
+
+    <h1> 음식을 추천합니다. </h1>
+    <div class="menu">
+        hihihihihihihi
+    </div>
+    <div>
+        {% for foodCategory in foodsCategories %}
+            {% comment %} <button data-id="{{emotion.id}}" class="attr">{{emotion.emotion_name}}</button> {% endcomment %}
+            <a href="{% url 'foods:result' foodCategory.id %}"><button>{{ foodCategory.food_ctg }}</button></a>
+        {% endfor %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        {% comment %} var feelingButtons = document.querySelectorAll('.attr')
+        feelingButtons.forEach(function(feelingButton){
+             feelingButton.addEventListener('click', function(event){
+                var targetId = event.target.dataset.id;
+                console.log(event.target.dataset.id);
+                axios.get(`/mains/${targetId}/`)
+                .then(function(res){
+                    console.log(res.data.foods)
+                    var result = document.getElementById('menu');
+                    for (var food in res.data.foods) { 
+                        result.innetHTML += "<li>"+food+"</li>";
+                    }
+                })
+             });
+        }); {% endcomment %}
+    </script>
+{% endblock %}

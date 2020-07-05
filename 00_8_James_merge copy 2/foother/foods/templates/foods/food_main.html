@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+
+ <h1> 음식을 추천합니다. </h1>     
+    <div class="container d-flex justify-content-center" style="width:70%">
+        <div class="row">
+        {% for foodCategory in foodsCategories %}
+            <div class="col-3 food-ctg-box mb-3">
+                <a href="{% url 'foods:result' foodCategory.food_ctg %}"><img src="{{ foodCategory.food_ctg_image.url }}" class="img-square"></a>
+            {% comment %} <button class="btn btn-success">{{ foodCategory.food_ctg }}</button> {% endcomment %}
+            </div>
+        {% endfor %}
+            {% comment %} <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/chinese.png' %}" class="img-square">
+            
+            <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/dessert.png' %}" class="img-square">
+            </div>
+            <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/easy.png' %}" class="img-square">
+            </div>
+            <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/hamburger.png' %}" class="img-square">
+            </div>
+            <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/japanese.png' %}" class="img-square">
+            </div>
+            <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/noodle.png' %}" class="img-square">
+            </div>
+            <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/pizza.png' %}" class="img-square">
+            </div>
+            <div class="food-ctg-box mb-3 ml-1 mr-1">
+                <img src="{% static 'img/ctg/salad.png' %}" class="img-square">
+            </div> {% endcomment %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        {% comment %} var feelingButtons = document.querySelectorAll('.attr')
+        feelingButtons.forEach(function(feelingButton){
+             feelingButton.addEventListener('click', function(event){
+                var targetId = event.target.dataset.id;
+                console.log(event.target.dataset.id);
+                axios.get(`/mains/${targetId}/`)
+                .then(function(res){
+                    console.log(res.data.foods)
+                    var result = document.getElementById('menu');
+                    for (var food in res.data.foods) { 
+                        result.innetHTML += "<li>"+food+"</li>";
+                    }
+                })
+             });
+        }); {% endcomment %}
+    </script>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!--fontawsome-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
+<!-- ======= Portfolio Section ======= -->
+<section id="all" class="portfolio section-bg">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>뉴스피드</h2>
+      {% comment %} <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> {% endcomment %}
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+        <ul id="portfolio-flters">
+          <li data-filter="*" class="filter-active">전체</li>
+          <li data-filter=".korean">한식</li>
+          <li data-filter=".japense">일식</li>
+          <li data-filter=".chinese">중식</li>
+          <li data-filter=".american">양식</li>
+          <li data-filter=".southeastern">동남아식</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row-cols-3 portfolio-container" data-aos="fade-up" data-aos-delay="200">
+      {% for review in reviews %}
+        <div class="col-md-4 review-all portfolio-item {{ review.food_kind }}" data-filter="filter-American">
+        <h6><img src="{{ review.user.user_profile_image.url }}" class="rounded-circle mr-2 all-profile" >{{ review.user.username }}</h6>
+            <img src="{{ review.food_image.url }}" style="width:100%" class="img-fluid" alt="">
+            {% if request.user in review.like_users.all %}
+              <i role="button" class="fas fa-heart fa-md like-button" data-id="{{ review.pk }}" style="color: red;"></i>
+            {% else %}
+              <i role="button" class="far fa-heart fa-md like-button" data-id="{{ review.pk }}" style="color: black;"></i>
+            {% endif %}
+            {% if review.like_users.count == 1 %}
+              <a class="user-select-none">{{ review.like_users.all|random }}님이 좋아합니다.</a>
+            {% endif %}
+            {% if review.like_users.count > 1 %}
+              <a class="user-select-none">{{ review.like_users.all|random }}님 외 {{ review.like_users.count }} 명이 좋아합니다.</a>
+            {% endif %}
+            <div class="portfolio-info">
+                <a>{{ review.restaurant_name }}</a><a class="ml-2 review-font-bold">({{ review.food_name }})</a>
+                <a class="d-block">{{ review.restaurant_address }}</a>
+                <a class="d-block">✍️{{ review.food_review }}</a>
+                <a class="d-block">⭐️{{ review.food_star }}</a>
+                <a class="d-block text-right">{{ review.visit_date }}</a>
+                <a class="d-block text-right" href="{% url 'maps:comment-create' review.pk %}">후기 남기기</a>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+
+    <div class="pagination">
+    <span class="step-links">
+      {% if reviews.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ reviews.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}.
+      </span>
+
+      {% if reviews.has_next %}
+        <a href="?page={{ reviews.next_page_number }}">next</a>
+        <a href="?page={{ review.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+</div>
+  </div>
+</section>
+
+
+
+<!--card script-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+  const likeButtonList = document.querySelectorAll('.like-button')
+  likeButtonList.forEach(likeButton => {
+    likeButton.addEventListener('click', function(event) {
+      console.log(event)
+      const reviewId = event.target.dataset.id
+
+      axios.get(`/reviews/${reviewId}/like/`)
+        .then(response => {
+          if (response.data.liked) { 
+            event.target.style.color = 'red'
+            event.target.classList.remove('far')
+            event.target.classList.add('fas')
+          } else {  
+            event.target.style.color = 'black'
+            event.target.classList.remove('fas')
+            event.target.classList.add('far')
+          }
+        })
+        .catch(error => console.log(error))
+    })
+  })
+</script>
+{% endblock  %}
