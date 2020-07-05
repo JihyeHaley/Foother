@@ -55,7 +55,7 @@
             {% else %}
               <i role="button" class="far fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: black;"></i>
             {% endif %}
-            <a href="#" style="color:black"><i onclick="window.open('http://127.0.0.1:8000/reviews/{{ request.user.pk }}/{{ review.pk }}/comment/create', '댓글달기', 'width=700, height=500, top=200, left=400, toolbar=no, scrollbars=no, resizable=no');"class="far fa-comment fa-lg ml-2"></i></a>
+            <a href="#" style="color:black"><i onclick="window.open('http://127.0.0.1:8000/reviews/{{ request.user.username }}/{{ review.pk }}/comment/create', '댓글달기', 'width=800, height=600, top=200, left=400, toolbar=no, scrollbars=no, resizable=no');"class="far fa-comment fa-lg ml-2"></i></a>
             {% if review.like_users.count == 1 %}
               <span class="user-select-none d-block"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님이 좋아합니다.</span>
             {% endif %}

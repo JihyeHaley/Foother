@@ -134,7 +134,7 @@ def like(request, review_pk):
 
 
 @login_required
-def comment_create(request, comment_user_pk, review_pk):
+def comment_create(request, comment_user_username, review_pk):
     review = Review.objects.get(pk=review_pk)
     if request.method == 'POST':
         print("comment post 들어옴")
@@ -154,7 +154,7 @@ def comment_create(request, comment_user_pk, review_pk):
         context = {
             'form' : form,
             'review_pk' : review_pk,
-            'comment_user_pk' : comment_user_pk,
+            'comment_user_username' : comment_user_username,
             'review' : review,
         }
         print(form)

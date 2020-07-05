@@ -12,20 +12,23 @@
                     <img src="{{ review.food_image.url }}" width="100%"><br>
                     <div class="mt-3">
                         <div>
-                            <div  class="d-flex flex-direction-column justify-content-start">
+                            <div>
                                 {% if request.user in review.like_users.all %}
-                                    <i role="button" class="fas fa-heart fa-lg like-button mt-2 mr-3" data-id="{{ review.pk }}" style="color: red;"></i>
+                                <i role="button" class="fas fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: red;"></i>
                                 {% else %}
-                                    <i role="button" class="far fa-heart fa-lg like-button mt-2mr-3" data-id="{{ review.pk }}" style="color: black;"></i>
+                                <i role="button" class="far fa-heart fa-lg like-button" data-id="{{ review.pk }}" style="color: black;"></i>
                                 {% endif %}
+                                <a href="#" style="color:black"><i onclick="window.open('http://127.0.0.1:8000/reviews/{{ request.user.username }}/{{ review.pk }}/comment/create', '댓글달기', 'width=800, height=600, top=200, left=400, toolbar=no, scrollbars=no, resizable=no');"class="far fa-comment fa-lg ml-2"></i></a>
                                 {% if review.like_users.count == 1 %}
-                                    <span class="user-select-none mr-5" style="color:black; font-size:1.2em"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님이 좋아합니다.</span>
+                                <span class="user-select-none d-block"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님이 좋아합니다.</span>
                                 {% endif %}
                                 {% if review.like_users.count > 1 %}
-                                    <span class="user-select-none mr-5" style="color:black; font-size:1.2em"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님 외 {{ review.like_users.count }} 명이 좋아합니다.</span>
+                                <span class="user-select-none d-block"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님 외 {{ review.like_users.count }} 명이 좋아합니다.</span>
                                 {% endif %}
                                 {% if request.user == review.user %}
-                                <a class="text-right" href="{% url 'maps:review-update' review.pk %}"><i class="fas fa-edit fa-lg ml-5" style="color:black; opacity:0.5"></i></a>
+                                <div class="d-flex justify-content-end">
+                                    <a  href="{% url 'maps:review-update' review.pk %}"><i class="fas fa-edit fa-lg" style="color:black; opacity:0.5"></i></a>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -56,8 +59,14 @@
                 </div>
                 
                 {% for comment in send_comments %}
+                <table style="border:none">
+                    <tr>
+                        <td><a style="color:black" href="{% url 'accounts:profile' comment.user.username %}"><span><img src="{{ comment.user.user_profile_image.url }}" width="25px"class="rounded-circle mr-2" >{{ comment.user.username }}</span></a></td>
+                        <td><span class="ml-4 d-inline font-light">{{ comment.contents }}</span></td>
+                    </tr>
+                </table>
                 <div class="mb-2">
-                    <a style="color:black" href="{% url 'accounts:profile' comment.user.username %}"><span><img src="{{ comment.user.user_profile_image.url }}" width="25px"class="rounded-circle mr-2" >{{ comment.user.username }}</span></a><span class="ml-4 d-inline font-light">{{ comment.contents }}</span>
+                    
                     {% comment %} {{ comment.review.set_all }} {% endcomment %}
                 </div>
                 {% endfor %}

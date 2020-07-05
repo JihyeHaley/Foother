@@ -112,10 +112,12 @@ class ReviewForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     contents = forms.CharField(
-        label = '댓글을 남겨주세여',
+        label = '댓글을 적어봐요',
         widget = forms.Textarea(
             attrs={
-                'placeholder': '댓글!!'
+                'placeholder': '댓글을 적어주세요.',
+                'rows' : 3,
+                'cols' : 8,
             }
         )
     )
