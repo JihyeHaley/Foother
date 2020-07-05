@@ -56,7 +56,7 @@ def review_detail(request, username, review_pk):
     review = Review.objects.get(pk=review_pk)
 
     comments = Comment.objects.all()
-    paginator = Paginator(comments,7)
+    paginator = Paginator(comments,5)
     page_number = request.GET.get('page')
     comments = paginator.get_page(page_number)
     

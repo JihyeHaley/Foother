@@ -4,8 +4,7 @@
 
 {% block content %}
 <div class="container3 mt-5">
-    <h1><img src="{% static 'img/nav/all.png' %}" class="page-icon mr-2 ml-2">글 자세히보기</h1>
-    <a href="{% url 'accounts:profile' request.user.username %}"><i class="fas fa-backward fa-lg" style="color:black; opacity:0.7"></i></a>
+    <h1><img src="{% static 'img/nav/review.png' %}" class="page-icon mr-2 ml-2">글 자세히보기</h1>
     <div class="container mt-5" >
         <div class="row">
             <div class="col-5 d-flex align-items-center justify-space-center">
@@ -25,9 +24,7 @@
                                 {% if review.like_users.count > 1 %}
                                     <span class="user-select-none mr-5" style="color:black; font-size:1.2em"><a href="{% url 'accounts:profile' review.like_users.all|random %}">{{ review.like_users.all|random }}</a>님 외 {{ review.like_users.count }} 명이 좋아합니다.</span>
                                 {% endif %}
-                            </div>
-                            <div class="d-flex flex-direction-column justify-content-end">
-                                {% if request.user == review %}
+                                {% if request.user == review.user %}
                                 <a class="text-right" href="{% url 'maps:review-update' review.pk %}"><i class="fas fa-edit fa-lg ml-5" style="color:black; opacity:0.5"></i></a>
                                 {% endif %}
                             </div>
@@ -54,18 +51,21 @@
                 <i class="fas fa-star fa-lg mr-1" style="color:#f5da42"></i>
                 {% endif %}
                 <span class="d-block font-light mt-2" style="font-size:1.0rem">{{ review.visit_date }}</span>
-                <div class="portfolio-info">
-                    <span class="d-block mt-2 mb-1">{{ review.food_review }}</span>
+                <div class="portfolio-info mb-3">
+                    <p class="mt-2 mb-1" style="font-size:1.2em">{{ review.food_review }}</p>
                 </div>
+                
                 {% for comment in comments %}
-                   <span class="d-block">{{ comment.contents }}</span>
+                <div class="mb-2">
+                    <a style="color:black" href="{% url 'accounts:profile' comment.review.user.username %}"><span><img src="{{ comment.review.user.user_profile_image.url }}" width="25px"class="rounded-circle mr-2" >{{ comment.review.user.username }}</span></a><span class="ml-4 d-inline font-light">{{ comment.contents }}</span>
                     {% comment %} {{ comment.review.set_all }} {% endcomment %}
+                </div>
                 {% endfor %}
-                <div class="pagination">
+                <div class="pagination d-flex justify-content-center">
                     <span class="step-links">
-                    {% if articles.has_previous %}
-                        <a href="?page=1">&laquo; first</a>
-                        <a href="?page={{ comments.previous_page_number }}">previous</a>
+                    {% if comments.has_previous %}
+                        <a href="?page=1" style="color:black; font-size:0.9rem">◀︎◀︎</a>
+                        <a href="?page={{ comments.previous_page_number }}" class="ml-1" style="color:black; font-size:0.9rem">◀︎</a>
                     {% endif %}
 
                     <span class="current">
@@ -73,10 +73,20 @@
                     </span>
 
                     {% if comments.has_next %}
-                        <a href="?page={{ comments.next_page_number }}">next</a>
-                        <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+                        <a href="?page={{ comments.next_page_number }}" style="color:black; font-size:0.9rem">▶︎</a>
+                        <a href="?page={{ comments.paginator.num_pages }}" class="ml-1" style="color:black; font-size:0.9rem">▶︎▶︎</a>
                     {% endif %}
                     </span>
+                </div>
+                <div class="d-flex align-items-row justify-content-end">
+                    <a style="color:black" href="{% url 'accounts:profile' request.user.username %}">
+                        <i class="fas fa-backward fa-xs mr-2" style="color:black"></i>
+                            {% if review.user == request.user %}
+                                내 프로필로
+                            {% else %}
+                                <span style="color:black; opacity:0.8;" class="mr-1">{{ review.user }}님</span>프로필로 가기
+                            {% endif %}
+                    </a>
                 </div>
             </div>
         </div>

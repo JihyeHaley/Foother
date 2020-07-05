@@ -12,6 +12,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 def user_ranking():
+    User = get_user_model()
     users = User.objects.all()
     if len(users) >3:
         while len(users) == 3:
