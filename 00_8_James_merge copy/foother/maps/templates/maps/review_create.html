@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h1>Chuck 1</h1>
+
+<label for="addressSearch">주소 검색 : <input id="addressSearch" type="text"></label>
+<input id="searchBtn" type="submit">
+<hr>
+<div id="map" style="width:500px;height:400px;"></div>
+
+<form action="{% url 'maps:review-create' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <button class="btn btn-success">전송</button>
+</form>
+<hr>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+// 검색을 위한 돔 객체 생성
+var addressSearch = document.getElementById('addressSearch')
+var searchBtn = document.getElementById('searchBtn')
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+              mapOption = {
+                  
+                  center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                  //center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                  level: 4 // 지도의 확대 레벨
+              };
+
+          // 지도를 생성합니다.
+          var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+
+// 주소검색 버튼 클릭
+searchBtn.addEventListener('click', function(event){
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    }
+    function showPosition(position) {
+        //x.innerHTML="위도: " + position.coords.latitude + "<br />경도: " + position.coords.longitude;   
+      var latitude = position.coords.latitude
+      var longtitude = position.coords.longitude
+    
+    console.log(latitude)
+    console.log(longtitude)
+    
+    axios.get('https://dapi.kakao.com/v2/local/search/keyword.json?y='+longtitude+'&x='+latitude,
+    { params: {
+        query: addressSearch.value,
+        category_group_code: 'FD6',
+        page:10
+      },
+    headers: {
+      'Authorization': 'KakaoAK 1bdcfbeb6bb8e3bf27b8caf11c8e53b4'
+    }
+    }).then(function(res){
+
+      // 요청이 성공했을 때 실행하는 함수
+      // res에 가게이름, 좌표, 주소 포함 Json 데이터로 받아옴.
+
+      //중심좌표를 위한 위도, 경도 설정
+      var lat = res.data.documents[0].x
+      var lng = res.data.documents[0].y
+        console.log(res.data)
+          // 지도 및 마커 영역
+          // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+          var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+          var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+              mapOption = {
+                  
+                  center: new kakao.maps.LatLng(longtitude, latitude), // 지도의 중심좌표
+                  //center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                  level: 6 // 지도의 확대 레벨
+              };
+
+          // 지도를 생성합니다.
+          var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+          // 장소 검색 객체를 생성합니다
+          var ps = new kakao.maps.services.Places(); 
+
+          // 키워드로 장소를 검색합니다
+          ps.keywordSearch(addressSearch.value, placesSearchCB,{
+            location: new kakao.maps.LatLng(latitude, longtitude)
+          });
+
+          // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+          function placesSearchCB (data, status, pagination) {
+              if (status === kakao.maps.services.Status.OK) {
+                
+                  // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                  // LatLngBounds 객체에 좌표를 추가합니다
+                  var bounds = new kakao.maps.LatLngBounds();
+
+                  for (var i=0; i<data.length; i++) {
+                      displayMarker(data[i]);    
+                      bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+                      console.log(data[i].road_address_name)
+                  }       
+                  // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                  map.setBounds(bounds);
+              } 
+          }
+
+          // 지도에 마커를 표시하는 함수입니다
+            function displayMarker(place) {
+                console.log("hhhhh")
+                // 마커를 생성하고 지도에 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: new kakao.maps.LatLng(place.y, place.x) 
+                });
+
+                // 마커에 클릭이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                    infowindow.setContent('<div style="padding:5px;font-size:12px;"><ol>' +
+                    '<li><h6> 음식점 이름: ' + place.place_name + '</h6></li>'+
+                    '<li><h6> 카테고리: ' + place.category_name + '</h6></li>'+
+                    '<li><h6> 상세주소: ' + place.road_address_name + '</h6></li>'+
+                    '<li><h6> 전화번호: ' + place.phone + '</h6></li>'+
+                    '</ol></div>');
+                    infowindow.open(map, marker);
+                    console.log(place)
+                    // 리뷰로 올릴 위도 설정
+                      var lat = document.querySelector('#id_lat')
+                      lat.value = place.y;
+
+                      // 리뷰로 올릴 경도 설정
+                      var lng = document.querySelector('#id_lng')
+                      lng.value = place.x;
+
+                      //리뷰로 올릴 음식점 이름 설정
+                      var restaurant_name = document.querySelector('#id_restaurant_name')
+                      restaurant_name.value = place.place_name
+
+                      //리뷰로 올릴 음식점 주소 설정
+                      var restaurant_address = document.querySelector('#id_restaurant_address')
+                      restaurant_address.value = place.road_address_name
+                });
+            }
+                })
+    }
+})
+{% comment %} 
+  //리뷰로 올릴 음식 이름 설정
+  var restaurant_name = document.querySelector('#id_restaurant_name')
+  restaurant_name.addEventListener('change', function(event){}
+  
+  
+  //리뷰로 올릴 음식점 별점 설정
+  var food_star = document.querySelector('#id_food_star')
+  food_star.addEventListener('change', function(event){}
+
+  //리뷰로 올릴 음식점 리뷰 설정
+  var food_review = document.querySelector('#id_food_review')
+  food_review.addEventListener('change', function(event){}
+
+  //리뷰로 올릴 음식점 사진 설정
+  var food_image = document.querySelector('#id_food_image')
+  food_image.addEventListener('change', function(event){} {% endcomment %}
+
+
+</script>
+
+<hr>
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Facts</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="count-box">
+              <i class="icofont-simple-smile"></i>
+              <span data-toggle="counter-up">232</span>
+              <p>Happy Clients</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+            <div class="count-box">
+              <i class="icofont-document-folder"></i>
+              <span data-toggle="counter-up">521</span>
+              <p>Projects</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+              <i class="icofont-live-support"></i>
+              <span data-toggle="counter-up">1,463</span>
+              <p>Hours Of Support</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+              <i class="icofont-users-alt-5"></i>
+              <span data-toggle="counter-up">15</span>
+              <p>Hard Workers</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    
+{% endblock %}

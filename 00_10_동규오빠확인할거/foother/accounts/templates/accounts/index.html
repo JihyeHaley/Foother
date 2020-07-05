@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+<!-- _nav_html  으로 대체-->
+{% comment %} {% block content %}
+    <h1>accounts-index</h1>
+    {% if request.user.is_authenticated %}
+        <a> <img src="{{ request.user.user_profile_image.url }}" class="d-inline rounded-circle" style="width:50px"></a>
+        <a> {{ request.user }}님 반갑습니다.</a>
+        <a href="{% url 'accounts:logout' %}">logout 하기</a>
+    {% else %}
+        <a href="{% url 'accounts:signup' %}">회원가입</a>
+        <a href="{% url 'accounts:login' %}">로그인</a>
+    {% endif %}
+    
+{% endblock  %} {% endcomment %}

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h1>Chuck 1</h1>
+
+<label for="addressSearch">주소 검색 : <input id="addressSearch" type="text"></label>
+<input id="searchBtn" type="submit">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<hr>
+<div id="map" style="width:500px;height:400px;"></div>
+
+<form action="{% url 'maps:profile' request.user.username%}" method="POST" enctype="multipart/data-form">
+{% csrf_token %}
+{% bootstrap_form form %}
+<button class="btn btn-success">전송</button>
+</form>
+<hr>
+
+<script>
+var addressSearch = document.getElementById('addressSearch')
+var searchBtn = document.getElementById('searchBtn')
+var restaurant_address_dom = document.getElementById('restaurant_address')
+var restaurant_address_dom2 = document.getElementById('restaurant_address2')
+var lat_dom = document.getElementById('lat')
+var lng_dom = document.getElementById('lng')
+searchBtn.addEventListener('click', function(event){
+  console.log("주소검색 버튼 눌림")
+  console.log(addressSearch.value)
+    axios.get('https://dapi.kakao.com/v2/local/search/keyword.json?y=37.514322572335935&x=127.06283102249932&radius=20000',
+    { params: {
+        query: addressSearch.value,
+        category_group_code: 'FD6',
+        page:10
+      },
+    headers: {
+      'Authorization': 'KakaoAK 1bdcfbeb6bb8e3bf27b8caf11c8e53b4'
+    }
+    }).then(function(res){
+      console.log(res.data)
+      console.log(res.data.documents)
+      console.log(res.data.documents[0].x)
+      var lat = res.data.documents[0].x
+      var lng = res.data.documents[0].y
+
+      
+          // 지도 및 마커 영역
+          // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+          var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+          var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+              mapOption = {
+                  
+                  center: new kakao.maps.LatLng(lng, lat), // 지도의 중심좌표
+                  //center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                  level: 4 // 지도의 확대 레벨
+              };
+
+          // 지도를 생성합니다.
+          var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+          // 장소 검색 객체를 생성합니다
+          var ps = new kakao.maps.services.Places(); 
+
+          // 키워드로 장소를 검색합니다
+          ps.keywordSearch(addressSearch.value, placesSearchCB);
+
+          // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+          function placesSearchCB (data, status, pagination) {
+              if (status === kakao.maps.services.Status.OK) {
+                
+                  // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                  // LatLngBounds 객체에 좌표를 추가합니다
+                  var bounds = new kakao.maps.LatLngBounds();
+
+                  for (var i=0; i<data.length; i++) {
+                      displayMarker(data[i]);    
+                      bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+                  }       
+                  // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                  map.setBounds(bounds);
+              } 
+          }
+
+          // 지도에 마커를 표시하는 함수입니다
+            function displayMarker(place) {
+                console.log("hhhhh")
+                // 마커를 생성하고 지도에 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: new kakao.maps.LatLng(place.y, place.x) 
+                });
+
+                // 마커에 클릭이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                    infowindow.setContent('<div style="padding:5px;font-size:12px;"><ol>' +
+                    '<li><h6> 음식점 이름: ' + place.place_name + '</h6></li>'+
+                    '<li><h6> 카테고리: ' + place.category_name + '</h6></li>'+
+                    '<li><h6> 상세주소: ' + place.road_address_name + '</h6></li>'+
+                    '<li><h6> 전화번호: ' + place.phone + '</h6></li>'+
+                    '</ol></div>');
+                    infowindow.open(map, marker);
+                    lat_dom.value = place.x
+                    lng_dom.value = place.y
+                    restaurant_address_dom.value = place.road_address_name
+                    restaurant_address_dom2.value = place.road_address_name
+
+                     //위도
+                      var lat = document.querySelector('#id_lat')
+                      lat.value = LatLng.getLat();
+
+
+                      //경도
+                      var lng = document.querySelector('#id_lng')
+                      lng.value = LatLng.getLng();
+                });
+            }
+                }).catch(
+                  alert("검색 결과가 없습니다.🥵")
+                )
+})
+
+       
+
+</script>
+
+
+<hr>
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Facts</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="count-box">
+              <i class="icofont-simple-smile"></i>
+              <span data-toggle="counter-up">232</span>
+              <p>Happy Clients</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+            <div class="count-box">
+              <i class="icofont-document-folder"></i>
+              <span data-toggle="counter-up">521</span>
+              <p>Projects</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+              <i class="icofont-live-support"></i>
+              <span data-toggle="counter-up">1,463</span>
+              <p>Hours Of Support</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+            <div class="count-box">
+              <i class="icofont-users-alt-5"></i>
+              <span data-toggle="counter-up">15</span>
+              <p>Hard Workers</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    
+{% endblock %}

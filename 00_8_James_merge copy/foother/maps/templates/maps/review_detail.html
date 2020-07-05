@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ review.food_name }}
+    {{ review.food_review }}
+    {{ review.food_star }}
+    {{ review.visit_date }}
+    {{ review.food_kind }}
+   <a href="{% url 'maps:review-update' review.pk %}">리뷰수정하기</a>
+{% endblock %}

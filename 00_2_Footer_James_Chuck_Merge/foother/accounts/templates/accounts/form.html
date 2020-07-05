@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    {% if request.resolver_match.url_name == 'signup' %}
+        <h1>회원가입</h1>
+    {% else  %}
+        <h1>로그인</h1>
+    {% endif %}
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+        <!-- 하나의 파일에서 두개의 기능 -->
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-success">
+            {% if request.resolver_match.url_name == 'signup' %}
+                회원가입
+                {% else  %}
+                로그인
+            {% endif %}
+        </button>
+    </form>
+
+
+{% comment %} {% if request.resolver_match.url_name == 'signup' %}
+<div id="signup" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Login</h1>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <!-- 하나의 파일에서 두개의 기능 -->
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <button class="btn btn-success">회원가입</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->  
+{% else  %}
+<div id="login" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Login</h1>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <!-- 하나의 파일에서 두개의 기능 -->
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <button class="btn btn-success">로그인</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->         
+{% endif %} {% endcomment %}
+
+
+{% endblock  %}

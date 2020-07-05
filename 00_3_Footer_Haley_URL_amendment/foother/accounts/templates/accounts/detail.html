@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>이름: {{ user.username }}</p>
+    <p>비밀번호: {{ user.password1 }}</p>
+    <p>핸드폰번호: {{ user.user_phone }}</p>
+    <p>생일: {{ user.user_birth }}</p>
+    <a class="d-inline" href="{{ user.user_profile_image.url }}">프로필 사진: <img src="{{ user.user_profile_image.url }}"></a>
+    <a class="btn btn-warning" href="{% url 'accounts:detail' user.pk %}">개인정보 수정하기</a>
+    <a href="{% url 'accounts:index' %}">뒤로가기</a>
+{% endblock  %}

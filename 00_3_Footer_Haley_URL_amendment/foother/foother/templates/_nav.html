@@ -1,0 +1,26 @@
+<!-- ======= Header ======= -->
+
+  <header id="header" class="d-flex flex-column justify-content-flex-start mt-5">
+
+    <nav class="nav-menu">
+      <ul>
+        {% if request.user.is_authenticated %}
+        <li><a> <img src="{{ request.user.user_profile_image.url }}" class="rounded-circle" style="width:50px"></a></li>
+        <li><a> {{ request.user }}님 </a></li>
+        {% comment %} <li><a href="{% url 'accounts:signup_update' user.pk %}">수정</a> {% endcomment %}
+        <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'accounts:signup' %}">SignUp</a></li>
+        <li><a href="{% url 'accounts:login' %}">LogIn</a></li>
+        {% endif %}
+        
+        {% comment %} <li class="active"><a href="#hero"><i class="bx bx-home mr-2"></i>Home</a></li> {% endcomment %}
+        <li><a href="#about"><i class="bx bx-user mr-2"></i>음식추천</a></li>
+        <li><a href="#resume"><i class="bx bx-file-blank mr-2"></i>업로드</a></li>
+        <li><a href="#portfolio"><i class="bx bx-book-content mr-2"></i>내프로필</a></li>
+        <li><a href="#services"><i class="bx bx-server mr-2"></i>전체보기</a></li>
+        <li><a href="#contact"><i class="bx bx-envelope mr-2"></i>FAQ</a></li>
+      </ul>
+    </nav><!-- .nav-menu -->
+
+  </header><!-- End Header -->
